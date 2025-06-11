@@ -1,0 +1,72 @@
+<div class="overflow-x-auto">
+  <table cdk-table [dataSource]="filteredEmployees()" class="w-full table-auto">
+    <ng-container cdkColumnDef="code">
+      <th cdk-header-cell *cdkHeaderCellDef class="">
+        <div class="-mx-4 -my-1 flex items-center">
+          <button class="flex items-center rounded-xl p-2 hover:bg-stone-100">
+            <i class="ms">filter_alt</i>
+          </button>
+          <button
+            class="flex items-center gap-1 rounded-xl p-2 hover:bg-stone-100"
+          >
+            Code
+            <i class="ms small">north</i>
+          </button>
+        </div>
+      </th>
+      <td cdk-cell *cdkCellDef="let employee">{{ employee.code }}</td>
+    </ng-container>
+    <ng-container cdkColumnDef="firstName">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <div class="-mx-4 -my-1 flex items-center">
+          <button class="flex items-center rounded-xl p-2 hover:bg-stone-100">
+            <i class="ms">filter_alt</i>
+          </button>
+          <button
+            class="flex items-center gap-1 rounded-xl p-2 hover:bg-stone-100"
+          >
+            First Name
+            <i class="ms small">north</i>
+          </button>
+        </div>
+      </th>
+      <td cdk-cell *cdkCellDef="let employee">{{ employee.firstName }}</td>
+    </ng-container>
+    <ng-container cdkColumnDef="lastName">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <div class="-mx-4 -my-1 flex items-center">
+          <button class="flex items-center rounded-xl p-2 hover:bg-stone-100">
+            <i class="ms">filter_alt</i>
+          </button>
+          <button
+            class="flex items-center gap-1 rounded-xl p-2 hover:bg-stone-100"
+          >
+            Last Name
+            <i class="ms small">north</i>
+          </button>
+        </div>
+      </th>
+      <td cdk-cell *cdkCellDef="let employee">{{ employee.lastName }}</td>
+    </ng-container>
+    <ng-container cdkColumnDef="action">
+      <th cdk-header-cell *cdkHeaderCellDef></th>
+      <td cdk-cell *cdkCellDef="let employee">
+        <div class="mx-auto flex items-center gap-4">
+          <button class="flex items-center"><i class="ms">edit</i></button>
+          <button class="flex items-center"><i class="ms">delete</i></button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr
+      cdk-header-row
+      *cdkHeaderRowDef="displayedColumns"
+      class="border-y border-stone-300 *:border-stone-300 *:px-4 *:py-2"
+    ></tr>
+    <tr
+      cdk-row
+      *cdkRowDef="let row; columns: displayedColumns"
+      class="*:min-w-48 *:px-4 *:py-2 hover:bg-stone-100"
+    ></tr>
+  </table>
+</div>

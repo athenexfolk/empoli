@@ -1,0 +1,62 @@
+<app-overlay>
+  <app-overlay-card>
+    <div class="mb-6 flex items-center justify-between gap-4">
+      <h2 class="text-center text-2xl font-bold">Add Employee</h2>
+      <button
+        (click)="closed.emit()"
+        type="button"
+        class="flex gap-2 text-stone-500 hover:text-stone-700"
+      >
+        <i class="ms">close</i>
+      </button>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
+      <div class="flex flex-col gap-1">
+        <label for="code">Code</label>
+        <input
+          id="code"
+          type="text"
+          formControlName="code"
+          placeholder="e.g. EMP001"
+          class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
+        />
+        @if (code.hasError("required") && code.touched) {
+          <span class="text-xs text-red-500">Code is required</span>
+        }
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="firstName">First Name</label>
+        <input
+          id="firstName"
+          type="text"
+          formControlName="firstName"
+          placeholder="e.g. John"
+          class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
+        />
+        @if (firstName.hasError("required") && firstName.touched) {
+          <span class="text-xs text-red-500">First name is required</span>
+        }
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="lastName">Last Name</label>
+        <input
+          id="lastName"
+          type="text"
+          formControlName="lastName"
+          placeholder="e.g. Doe"
+          class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
+        />
+        @if (lastName.hasError("required") && lastName.touched) {
+          <span class="text-xs text-red-500">Last name is required</span>
+        }
+      </div>
+      <button
+        type="submit"
+        [disabled]="form.invalid"
+        class="rounded bg-stone-800 px-4 py-2 text-sm font-medium text-white not-disabled:hover:bg-stone-700 disabled:opacity-50"
+      >
+        ADD
+      </button>
+    </form>
+  </app-overlay-card>
+</app-overlay>
