@@ -1,16 +1,40 @@
 <div class="overflow-x-auto">
-  <table cdk-table [dataSource]="filteredEmployees()" class="w-full table-auto">
+  <table
+    cdk-table
+    [dataSource]="filteredEmployees()"
+    class="min-h-28 w-full table-fixed"
+  >
     <ng-container cdkColumnDef="code">
       <th cdk-header-cell *cdkHeaderCellDef class="">
         <div class="-mx-4 -my-1 flex items-center">
-          <button class="flex items-center rounded-xl p-2 hover:bg-stone-100">
-            <i class="ms">filter_alt</i>
-          </button>
+          <div class="relative">
+            <button
+              (click)="codeSearchPanel.toggle()"
+              class="flex items-center rounded-xl p-2 hover:bg-stone-100"
+            >
+              <i class="ms">filter_alt</i>
+            </button>
+            @if (codeSearchPanel.active) {
+              <div
+                class="absolute top-full left-2 z-5 rounded-lg border border-stone-300 bg-white p-1 shadow-lg"
+              >
+                <input
+                  [ngModel]="codeFilter()"
+                  (ngModelChange)="codeFilter.set($event)"
+                  placeholder="Code"
+                  class="rounded-md border border-stone-300 px-4 py-2 placeholder:text-stone-300"
+                />
+              </div>
+            }
+          </div>
           <button
+            (click)="setSort('code')"
             class="flex items-center gap-1 rounded-xl p-2 hover:bg-stone-100"
           >
             Code
-            <i class="ms small">north</i>
+            @if (sortField() === "code") {
+              <i sortIndicator [direction]="sortDirection()"></i>
+            }
           </button>
         </div>
       </th>
@@ -19,14 +43,34 @@
     <ng-container cdkColumnDef="firstName">
       <th cdk-header-cell *cdkHeaderCellDef>
         <div class="-mx-4 -my-1 flex items-center">
-          <button class="flex items-center rounded-xl p-2 hover:bg-stone-100">
-            <i class="ms">filter_alt</i>
-          </button>
+          <div class="relative">
+            <button
+              (click)="firstNameSearchPanel.toggle()"
+              class="flex items-center rounded-xl p-2 hover:bg-stone-100"
+            >
+              <i class="ms">filter_alt</i>
+            </button>
+            @if (firstNameSearchPanel.active) {
+              <div
+                class="absolute top-full left-2 z-5 rounded-lg border border-stone-300 bg-white p-1 shadow-lg"
+              >
+                <input
+                  [ngModel]="firstNameFilter()"
+                  (ngModelChange)="firstNameFilter.set($event)"
+                  placeholder="First Name"
+                  class="rounded-md border border-stone-300 px-4 py-2 placeholder:text-stone-300"
+                />
+              </div>
+            }
+          </div>
           <button
+            (click)="setSort('firstName')"
             class="flex items-center gap-1 rounded-xl p-2 hover:bg-stone-100"
           >
             First Name
-            <i class="ms small">north</i>
+            @if (sortField() === "firstName") {
+              <i sortIndicator [direction]="sortDirection()"></i>
+            }
           </button>
         </div>
       </th>
@@ -35,14 +79,34 @@
     <ng-container cdkColumnDef="lastName">
       <th cdk-header-cell *cdkHeaderCellDef>
         <div class="-mx-4 -my-1 flex items-center">
-          <button class="flex items-center rounded-xl p-2 hover:bg-stone-100">
-            <i class="ms">filter_alt</i>
-          </button>
+          <div class="relative">
+            <button
+              (click)="lastNameSearchPanel.toggle()"
+              class="flex items-center rounded-xl p-2 hover:bg-stone-100"
+            >
+              <i class="ms">filter_alt</i>
+            </button>
+            @if (lastNameSearchPanel.active) {
+              <div
+                class="absolute top-full left-2 z-5 rounded-lg border border-stone-300 bg-white p-1 shadow-lg"
+              >
+                <input
+                  [ngModel]="lastNameFilter()"
+                  (ngModelChange)="lastNameFilter.set($event)"
+                  placeholder="Last Name"
+                  class="rounded-md border border-stone-300 px-4 py-2 placeholder:text-stone-300"
+                />
+              </div>
+            }
+          </div>
           <button
+            (click)="setSort('lastName')"
             class="flex items-center gap-1 rounded-xl p-2 hover:bg-stone-100"
           >
             Last Name
-            <i class="ms small">north</i>
+            @if (sortField() === "lastName") {
+              <i sortIndicator [direction]="sortDirection()"></i>
+            }
           </button>
         </div>
       </th>
@@ -68,5 +132,9 @@
       *cdkRowDef="let row; columns: displayedColumns"
       class="*:min-w-48 *:px-4 *:py-2 hover:bg-stone-100"
     ></tr>
+
+    <tr *cdkNoDataRow>
+      <td class="h-48 text-center" colspan="4">No data.</td>
+    </tr>
   </table>
 </div>
