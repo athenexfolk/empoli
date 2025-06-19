@@ -16,5 +16,6 @@ public class MapperProfile : Profile
 
         CreateMap<CreateLeaveTypeDto, LeaveType>();
         CreateMap<UpdateLeaveTypeDto, LeaveType>();
+        CreateMap<LeaveType, LeaveTypeDto>();
     }
 }

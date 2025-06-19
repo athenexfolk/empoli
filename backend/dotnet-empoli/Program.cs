@@ -13,6 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddValidatorsFromAssemblyContaining<CreateEmployeeDtoValidator>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<LeaveTypeService>();
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidateModelAttribute>();
