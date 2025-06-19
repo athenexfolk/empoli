@@ -4,41 +4,41 @@
     [dataSource]="filteredEmployees()"
     class="min-h-28 w-full table-fixed"
   >
-    <ng-container cdkColumnDef="code">
+    <ng-container cdkColumnDef="employeeId">
       <th cdk-header-cell *cdkHeaderCellDef class="">
         <div class="-mx-4 -my-1 flex items-center">
           <div class="relative">
             <button
-              (click)="codeSearchPanel.toggle()"
+              (click)="employeeIdSearchPanel.toggle()"
               class="flex items-center rounded-xl p-2 hover:bg-stone-100"
             >
               <i class="ms">filter_alt</i>
             </button>
-            @if (codeSearchPanel.active) {
+            @if (employeeIdSearchPanel.active) {
               <div
                 class="absolute top-full left-2 z-5 rounded-lg border border-stone-300 bg-white p-1 shadow-lg"
               >
                 <input
-                  [ngModel]="codeFilter()"
-                  (ngModelChange)="codeFilter.set($event)"
-                  placeholder="Code"
+                  [ngModel]="employeeIdFilter()"
+                  (ngModelChange)="employeeIdFilter.set($event)"
+                  placeholder="Employee Id"
                   class="rounded-md border border-stone-300 px-4 py-2 placeholder:text-stone-300"
                 />
               </div>
             }
           </div>
           <button
-            (click)="setSort('code')"
+            (click)="setSort('employeeId')"
             class="flex items-center gap-1 rounded-xl p-2 hover:bg-stone-100"
           >
-            Code
-            @if (sortField() === "code") {
+            Employee ID
+            @if (sortField() === "employeeId") {
               <i sortIndicator [direction]="sortDirection()"></i>
             }
           </button>
         </div>
       </th>
-      <td cdk-cell *cdkCellDef="let employee">{{ employee.code }}</td>
+      <td cdk-cell *cdkCellDef="let employee">{{ employee.employeeId }}</td>
     </ng-container>
     <ng-container cdkColumnDef="firstName">
       <th cdk-header-cell *cdkHeaderCellDef>
@@ -116,7 +116,9 @@
       <th cdk-header-cell *cdkHeaderCellDef></th>
       <td cdk-cell *cdkCellDef="let employee">
         <div class="mx-auto flex items-center gap-4">
-          <button class="flex items-center"><i class="ms">edit</i></button>
+          <button (click)="openupdatePanel(employee)" class="flex items-center">
+            <i class="ms">edit</i>
+          </button>
           <button class="flex items-center"><i class="ms">delete</i></button>
         </div>
       </td>
@@ -138,3 +140,10 @@
     </tr>
   </table>
 </div>
+
+@if (currentFocusedEmployee() && updatePanel.active) {
+  <app-update-employee
+    [employee]="currentFocusedEmployee()!"
+    (closed)="closeupdatePanel()"
+  />
+}

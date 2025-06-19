@@ -7,10 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { compareField } from '../../../shared/utils/compare-field';
 import { SortIndicator } from '../../../shared/components/sort-indicator/sort-indicator';
 import { Toggler } from '../../../shared/utils/toggler';
+import { UpdateEmployee } from "../update-employee/update-employee";
 
 @Component({
   selector: 'app-employee-list',
-  imports: [CdkTableModule, FormsModule, SortIndicator],
+  imports: [CdkTableModule, FormsModule, SortIndicator, UpdateEmployee],
   templateUrl: './employee-list.html',
   styleUrl: './employee-list.css',
 })
@@ -18,18 +19,23 @@ export class EmployeeList {
   protected readonly employeeStore = inject(EmployeeStore);
   private readonly employeeService = inject(EmployeeService);
 
-  protected sortField = signal<keyof Employee>('code');
+  protected sortField = signal<keyof Employee>('employeeId');
   protected sortDirection = signal<SortDirection>('asc');
 
-  protected displayedColumns = ['code', 'firstName', 'lastName', 'action'];
+  protected displayedColumns = ['employeeId', 'firstName', 'lastName', 'action'];
 
-  protected codeFilter = signal('');
+  protected employeeIdFilter = signal('');
   protected firstNameFilter = signal('');
   protected lastNameFilter = signal('');
 
-  protected codeSearchPanel = new Toggler();
+  protected employeeIdSearchPanel = new Toggler();
   protected firstNameSearchPanel = new Toggler();
   protected lastNameSearchPanel = new Toggler();
+
+  protected readonly updatePanel = new Toggler();
+  protected readonly deletePanel = new Toggler();
+
+  protected currentFocusedEmployee = signal<Employee | null>(null);
 
   protected readonly filteredEmployees = computed(() => {
     const field = this.sortField();
@@ -39,7 +45,7 @@ export class EmployeeList {
       .items()
       .filter(
         (emp) =>
-          emp.code.toLowerCase().includes(this.codeFilter().toLowerCase()) &&
+          emp.employeeId.toLowerCase().includes(this.employeeIdFilter().toLowerCase()) &&
           emp.firstName
             .toLowerCase()
             .includes(this.firstNameFilter().toLowerCase()) &&
@@ -70,5 +76,25 @@ export class EmployeeList {
       this.sortField.set(field);
       this.sortDirection.set('asc');
     }
+  }
+
+  openupdatePanel(employee: Employee) {
+    this.currentFocusedEmployee.set(employee);
+    this.updatePanel.activate();
+  }
+
+  closeupdatePanel() {
+    this.updatePanel.deactivate();
+    this.currentFocusedEmployee.set(null);
+  }
+
+  openDeletePanel(employee: Employee) {
+    this.currentFocusedEmployee.set(employee);
+    this.deletePanel.activate();
+  }
+
+  closeDeletePanel() {
+    this.deletePanel.deactivate();
+    this.currentFocusedEmployee.set(null);
   }
 }

@@ -6,9 +6,6 @@ public class UpdateEmployeeDtoValidator : AbstractValidator<UpdateEmployeeDto>
 {
     public UpdateEmployeeDtoValidator()
     {
-        RuleFor(x => x.EmployeeId)
-            .NotEmpty().WithMessage("Employee ID is required.");
-
         RuleFor(x => x.FirstName)
             .MaximumLength(100).WithMessage("First name must be at most 100 characters long.");
 

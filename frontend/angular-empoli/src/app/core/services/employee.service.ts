@@ -23,7 +23,7 @@ export class EmployeeService {
   }
 
   updateEmployee(id: string, dto: UpdateEmployeeDto) {
-    return this.http.put(`/api/employee/${id}`, dto);
+    return this.http.put<Employee>(`/api/employee/${id}`, dto);
   }
 
   deleteEmployee(id: string) {

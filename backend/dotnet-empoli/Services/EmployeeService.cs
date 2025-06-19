@@ -5,6 +5,7 @@ using Empoli.Data.Employee;
 using Empoli.Data.Employee.Dtos;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace Empoli.Services;
 
@@ -102,8 +103,8 @@ public class EmployeeService(
     private async Task<string> GenerateUniqueEmployeeIdAsync(CancellationToken cancellationToken)
     {
         var now = DateTime.UtcNow;
-        var prefix = $"EMP{now:yyyyMM}";
-        var countThisMonth = await _context.Employees.CountAsync(e => e.HireDate.Year == now.Year && e.HireDate.Month == now.Month, cancellationToken: cancellationToken);
+        var prefix = $"EMP{now.ToString("yyyyMM", CultureInfo.InvariantCulture)}";
+        var countThisMonth = await _context.Employees.CountAsync(e => e.CreatedAt.Year == now.Year && e.CreatedAt.Month == now.Month, cancellationToken: cancellationToken);
         var number = countThisMonth + 1;
         var employeeId = $"{prefix}{number:D3}";
         return employeeId;

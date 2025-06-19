@@ -16,7 +16,7 @@ th {
 }
 
 .ms {
-  font-family: 'Material Symbols Rounded';
+  font-family: "Material Symbols Rounded";
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
@@ -27,7 +27,11 @@ th {
   word-wrap: normal;
   white-space: nowrap;
   direction: ltr;
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 48;
 }
 
 .ms.small {
@@ -36,4 +40,8 @@ th {
 
 body {
   font-family: Jost, sans-serif;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
 }
