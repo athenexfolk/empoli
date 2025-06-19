@@ -16,4 +16,6 @@ public class Employee
     public string JobTitle { get; set; } = null!;
     public string Department { get; set; } = null!;
     public bool Status { get; set; } = true;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? UpdatedAt { get; set; }
 }

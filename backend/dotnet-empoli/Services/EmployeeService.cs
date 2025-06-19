@@ -46,7 +46,7 @@ public class EmployeeService(
             throw new ValidationException(validationResult.Errors);
         }
         var employee = _mapper.Map<Employee>(dto);
-        employee.EmployeeId = Guid.NewGuid().ToString(); // Generate a unique EmployeeId
+        employee.EmployeeId = await GenerateUniqueEmployeeIdAsync(cancellationToken);
         _context.Employees.Add(employee);
         await _context.SaveChangesAsync(cancellationToken);
         _logger.LogInformation("Created new employee with Id: {EmployeeId}", employee.Id);
@@ -68,6 +68,7 @@ public class EmployeeService(
             return null;
         }
         _mapper.Map(dto, employee);
+        employee.UpdatedAt = DateTime.UtcNow;
         _context.Employees.Update(employee);
         await _context.SaveChangesAsync(cancellationToken);
         _logger.LogInformation("Updated employee with Id: {EmployeeId}", employee.Id);
@@ -96,5 +97,15 @@ public class EmployeeService(
     public async Task<bool> EmployeeCodeExistsAsync(string code, CancellationToken cancellationToken)
     {
         return await _context.Employees.AnyAsync(e => e.EmployeeId == code, cancellationToken);
+    }
+
+    private async Task<string> GenerateUniqueEmployeeIdAsync(CancellationToken cancellationToken)
+    {
+        var now = DateTime.UtcNow;
+        var prefix = $"EMP{now:yyyyMM}";
+        var countThisMonth = await _context.Employees.CountAsync(e => e.HireDate.Year == now.Year && e.HireDate.Month == now.Month, cancellationToken: cancellationToken);
+        var number = countThisMonth + 1;
+        var employeeId = $"{prefix}{number:D3}";
+        return employeeId;
     }
 }
