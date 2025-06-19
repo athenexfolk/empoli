@@ -1,0 +1,6 @@
+@empoli_HostAddress = http://localhost:5113
+
+GET {{empoli_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

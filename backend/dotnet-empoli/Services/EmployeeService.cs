@@ -1,65 +1,100 @@
-﻿using dotnet_empoli.Data;
-using dotnet_empoli.Dtos;
-using dotnet_empoli.Models;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Empoli.Data;
+using Empoli.Data.Employee;
+using Empoli.Data.Employee.Dtos;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
-namespace dotnet_empoli.Services;
+namespace Empoli.Services;
 
-public class EmployeeService(ApplicationDbContext context)
+public class EmployeeService(
+    ApplicationDbContext context,
+    IMapper mapper,
+    IValidator<CreateEmployeeDto> createValidator,
+    IValidator<UpdateEmployeeDto> updateValidator,
+    ILogger<EmployeeService> logger)
 {
     private readonly ApplicationDbContext _context = context;
+    private readonly IMapper _mapper = mapper;
+    private readonly IValidator<CreateEmployeeDto> _createValidator = createValidator;
+    private readonly IValidator<UpdateEmployeeDto> _updateValidator = updateValidator;
+    private readonly ILogger<EmployeeService> _logger = logger;
 
-    public async Task<List<Employee>> GetEmployeesAsync()
+    public async Task<List<EmployeeDto>> GetEmployeesAsync(CancellationToken cancellationToken)
     {
-        return await _context.Employees.ToListAsync();
+        return await _context.Employees
+            .AsNoTracking()
+            .ProjectTo<EmployeeDto>(_mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task<Employee?> GetEmployeeByIdAsync(Guid id)
+    public async Task<EmployeeDto?> GetEmployeeByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _context.Employees.FindAsync(id);
+        return await _context.Employees
+            .AsNoTracking()
+            .ProjectTo<EmployeeDto>(_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
     }
 
-    public async Task<Employee> CreateEmployeeAsync(CreateEmployeeDto dto)
+    public async Task<EmployeeDto> CreateEmployeeAsync(CreateEmployeeDto dto, CancellationToken cancellationToken)
     {
-        var employee = new Employee
+        var validationResult = await _createValidator.ValidateAsync(dto, cancellationToken);
+        if (!validationResult.IsValid)
         {
-            Code = dto.Code,
-            FirstName = dto.FirstName,
-            LastName = dto.LastName
-        };
+            _logger.LogWarning("Validation failed for CreateEmployeeDto: {@Errors}", validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);
+        }
+        var employee = _mapper.Map<Employee>(dto);
+        employee.EmployeeId = Guid.NewGuid().ToString(); // Generate a unique EmployeeId
         _context.Employees.Add(employee);
-        await _context.SaveChangesAsync();
-        return employee;
+        await _context.SaveChangesAsync(cancellationToken);
+        _logger.LogInformation("Created new employee with Id: {EmployeeId}", employee.Id);
+        return _mapper.Map<EmployeeDto>(employee);
     }
 
-    public async Task<Employee?> UpdateEmployeeAsync(Guid id, UpdateEmployeeDto dto)
+    public async Task<EmployeeDto?> UpdateEmployeeAsync(Guid id, UpdateEmployeeDto dto, CancellationToken cancellationToken)
     {
-        var employee = await _context.Employees.FindAsync(id);
-        if (employee == null) return null;
-        employee.Code = dto.Code;
-        employee.FirstName = dto.FirstName;
-        employee.LastName = dto.LastName;
+        var validationResult = await _updateValidator.ValidateAsync(dto, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            _logger.LogWarning("Validation failed for UpdateEmployeeDto: {@Errors}", validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);
+        }
+        var employee = await _context.Employees.FindAsync([id], cancellationToken);
+        if (employee == null)
+        {
+            _logger.LogWarning("Employee with Id {EmployeeId} not found for update.", id);
+            return null;
+        }
+        _mapper.Map(dto, employee);
         _context.Employees.Update(employee);
-        await _context.SaveChangesAsync();
-        return employee;
+        await _context.SaveChangesAsync(cancellationToken);
+        _logger.LogInformation("Updated employee with Id: {EmployeeId}", employee.Id);
+        return _mapper.Map<EmployeeDto>(employee);
     }
 
-    public async Task<bool> DeleteEmployeeAsync(Guid id)
+    public async Task<bool> DeleteEmployeeAsync(Guid id, CancellationToken cancellationToken)
     {
-        var employee = await _context.Employees.FindAsync(id);
-        if (employee == null) return false;
+        var employee = await _context.Employees.FindAsync([id], cancellationToken: cancellationToken);
+        if (employee == null)
+        {
+            _logger.LogWarning("Employee with Id {EmployeeId} not found for deletion.", id);
+            return false;
+        }
         _context.Employees.Remove(employee);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
+        _logger.LogInformation("Deleted employee with Id: {EmployeeId}", id);
         return true;
     }
 
-    public async Task<bool> EmployeeExistsAsync(Guid id)
+    public async Task<bool> EmployeeExistsAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _context.Employees.AnyAsync(e => e.Id == id);
+        return await _context.Employees.AnyAsync(e => e.Id == id, cancellationToken);
     }
 
-    public async Task<bool> EmployeeCodeExistsAsync(string code)
+    public async Task<bool> EmployeeCodeExistsAsync(string code, CancellationToken cancellationToken)
     {
-        return await _context.Employees.AnyAsync(e => e.Code == code);
+        return await _context.Employees.AnyAsync(e => e.EmployeeId == code, cancellationToken);
     }
 }

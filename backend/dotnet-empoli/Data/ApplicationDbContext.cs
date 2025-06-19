@@ -1,13 +1,15 @@
-﻿using dotnet_empoli.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace dotnet_empoli.Data;
+namespace Empoli.Data;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext(options)
 {
-    public DbSet<Employee> Employees { get; set; }
+    public DbSet<Employee.Employee> Employees { get; set; }
+    public DbSet<Attendance.Attendance> Attendances { get; set; }
+    public DbSet<LeaveType.LeaveType> LeaveTypes { get; set; }
+    public DbSet<LeaveRequest.LeaveRequest> LeaveRequests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
