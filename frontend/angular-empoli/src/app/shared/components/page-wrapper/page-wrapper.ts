@@ -9,7 +9,7 @@ import { Component, input } from '@angular/core';
     <ng-content />
   `,
   host: {
-    class: 'p-6',
+    class: 'p-6 max-w-4xl mx-auto',
   },
   styles: `
     :host {

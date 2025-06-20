@@ -10,15 +10,15 @@
 }
 
 @utility brk-btn__base {
-  @apply rounded px-4 py-2 text-sm font-medium uppercase transition-all focus:outline-none active:scale-95 disabled:cursor-not-allowed disabled:opacity-50;
+  @apply rounded px-4 py-2 text-sm font-medium uppercase transition-all focus:outline-none not-disabled:active:scale-95 disabled:cursor-not-allowed disabled:opacity-50;
 }
 
 @utility brk-btn__primary {
-  @apply brk-btn__base bg-stone-800 text-white hover:bg-stone-700;
+  @apply brk-btn__base bg-stone-800 text-white not-disabled:hover:bg-stone-700;
 }
 
 @utility brk-btn__ghost {
-  @apply brk-btn__base bg-transparent text-stone-900 hover:bg-stone-50;
+  @apply brk-btn__base bg-transparent text-stone-900 not-disabled:hover:bg-stone-50;
 }
 
 @font-face {
@@ -64,4 +64,9 @@ body {
 
 .scrollbar-thin {
   scrollbar-width: thin;
+}
+
+.cdk-column-index,
+.cdk-column-action {
+  min-width: auto;
 }

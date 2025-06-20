@@ -4,11 +4,6 @@
     [dataSource]="filteredEmployees()"
     class="min-h-28 w-full table-auto"
   >
-    <colgroup>
-      <col />
-      <col span="3" class="min-w-40" />
-      <col />
-    </colgroup>
     <ng-container cdkColumnDef="index">
       <th cdk-header-cell *cdkHeaderCellDef>#</th>
       <td cdk-cell *cdkCellDef="let employee; let i = index">
@@ -92,7 +87,7 @@
     <tr
       cdk-row
       *cdkRowDef="let row; columns: displayedColumns"
-      class="*:px-4 *:py-2 hover:bg-stone-100"
+      class="*:min-w-40 *:px-4 *:py-2 hover:bg-stone-100"
     ></tr>
 
     <tr *cdkNoDataRow>

@@ -1,8 +1,8 @@
 <page-wrapper pageTitle="Add Employee">
   <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-6">
     <div formGroupName="personal" class="flex flex-col gap-4">
-      <h3 class="text-2xl font-bold">Personal Information</h3>
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <h3 class="text-xl font-bold">Personal Information</h3>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div class="flex flex-col gap-1">
           <label for="firstName">First Name</label>
           <input
@@ -45,8 +45,8 @@
     </div>
 
     <div formGroupName="contact" class="flex flex-col gap-4">
-      <h3 class="text-2xl font-bold">Contact Information</h3>
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <h3 class="text-xl font-bold">Contact Information</h3>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div class="flex flex-col gap-1">
           <label for="email">Email</label>
           <input
@@ -74,8 +74,8 @@
     </div>
 
     <div formGroupName="job" class="flex flex-col gap-4">
-      <h3 class="text-2xl font-bold">Job Information</h3>
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <h3 class="text-xl font-bold">Job Information</h3>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div class="flex flex-col gap-1">
           <label for="hireDate">Hire Date</label>
           <input
@@ -117,10 +117,20 @@
       </div>
     </div>
 
+    @if (errorMessage) {
+      <div
+        class="flex items-center gap-2 rounded border border-red-700 bg-red-50 px-4 py-2 text-red-700"
+      >
+        <icon name="error" />
+        {{ errorMessage }}
+      </div>
+    }
+
     <button
+      brkBtn
       type="submit"
+      [loading]="isSubmitting"
       [disabled]="isSubmitting || form.invalid"
-      class="rounded bg-stone-800 px-4 py-2 text-sm font-medium text-white not-disabled:hover:bg-stone-700 disabled:opacity-50"
     >
       ADD
     </button>

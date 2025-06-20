@@ -1,13 +1,16 @@
-import { Component, output, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmployeeService } from '../../../core/services/employee.service';
 import type { CreateEmployeeDto } from '../../../core/dtos/create-employee';
 import { EmployeeStore } from '../../../core/stores/employee.store';
 import { PageWrapper } from '../../../shared/components/page-wrapper/page-wrapper';
+import { Button } from '../../../shared/components/button/button';
+import { Icon } from '../../../shared/components/icon/icon';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-add-employee',
-  imports: [ReactiveFormsModule, PageWrapper],
+  imports: [ReactiveFormsModule, PageWrapper, Button, Icon],
   templateUrl: './add-employee.html',
   styleUrl: './add-employee.css',
 })
@@ -15,6 +18,7 @@ export class AddEmployee {
   private readonly fb = inject(FormBuilder);
   private readonly employeeStore = inject(EmployeeStore);
   private readonly employeeService = inject(EmployeeService);
+  private readonly toastService = inject(ToastService);
 
   form = this.fb.nonNullable.group({
     personal: this.fb.nonNullable.group({
@@ -35,7 +39,7 @@ export class AddEmployee {
 
   isSubmitting = false;
 
-  closed = output();
+  errorMessage?: string;
 
   get firstName() {
     return this.form.get('personal.firstName')!;
@@ -91,12 +95,19 @@ export class AddEmployee {
           this.form.reset();
           this.form.enable();
           this.isSubmitting = false;
-          this.closed.emit();
+          this.errorMessage = undefined;
+          this.toastService.push(
+            'Successfully!',
+            'Create employee completed',
+            'success',
+          );
         },
         error: (err) => {
           console.error('Failed to add employee', err);
           this.form.enable();
           this.isSubmitting = false;
+          this.errorMessage = 'Failed to add employee. Please try again later.';
+          this.toastService.push('Failed!', this.errorMessage, 'error');
         },
       });
     } else {

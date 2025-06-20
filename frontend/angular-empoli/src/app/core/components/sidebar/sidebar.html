@@ -1,11 +1,11 @@
 <div
   role="button"
   (click)="sidebarService.sidebar.deactivate()"
-  [class]="`fixed inset-0 z-9 bg-stone-500/50 backdrop-blur md:hidden transition-all duration-500 ${sidebarService.sidebar.active ? 'visible opacity-100' : 'invisible opacity-0'}`"
+  [class]="`fixed inset-0 z-9 bg-stone-500/50 backdrop-blur lg:hidden transition-all duration-500 ${sidebarService.sidebar.active ? 'visible opacity-100' : 'invisible opacity-0'}`"
 ></div>
 
 <div
-  [class]="`fixed top-0 md:left-0 flex h-dvh w-72 flex-col gap-4 bg-stone-50 z-10 p-4 transition-all duration-500 ${sidebarService.sidebar.active ? 'left-0' : '-left-72'}`"
+  [class]="`fixed top-0 lg:left-0 flex h-dvh w-72 flex-col gap-4 bg-stone-50 z-10 p-4 transition-all duration-500 ${sidebarService.sidebar.active ? 'left-0' : '-left-72'}`"
 >
   <a class="text-center text-2xl font-bold">EMPOLI</a>
   <div class="flex flex-col items-center gap-2 rounded-xl p-2">
