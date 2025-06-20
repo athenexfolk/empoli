@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { DashboardPage } from "./features/dashboard/dashboard/dashboard.page";
-import { EmployeeManagerPage } from "./features/employee-manager/employee-manager/employee-manager.page";
+import { RouterOutlet } from '@angular/router';
+import { Sidebar } from './core/layout/components/sidebar/sidebar';
+import { Header } from "./core/layout/components/header/header";
 
 @Component({
   selector: 'app-root',
-  imports: [DashboardPage, EmployeeManagerPage],
+  imports: [RouterOutlet, Sidebar, Header],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
   protected title = 'angular-empoli';

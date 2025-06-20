@@ -1,122 +1,111 @@
-<app-overlay>
-  <app-overlay-card>
-    <div class="mb-6 flex items-center justify-between gap-4">
-      <h2 class="text-center text-2xl font-bold">Add Employee</h2>
-      <button
-        (click)="closed.emit()"
-        type="button"
-        class="flex gap-2 text-stone-500 hover:text-stone-700"
-      >
-        <i class="ms">close</i>
-      </button>
+<div class="flex flex-col gap-6 p-4">
+  <h2 class="text-center text-2xl font-bold">Add Employee</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="grid grid-cols-2 gap-4">
+    <div class="flex flex-col gap-1">
+      <label for="firstName">First Name</label>
+      <input
+        id="firstName"
+        type="text"
+        formControlName="firstName"
+        placeholder="e.g. John"
+        class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
+      />
+      @if (firstName.hasError("required") && firstName.touched) {
+        <span class="text-xs text-red-500">First name is required</span>
+      }
     </div>
-    <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
-      <div class="flex flex-col gap-1">
-        <label for="firstName">First Name</label>
-        <input
-          id="firstName"
-          type="text"
-          formControlName="firstName"
-          placeholder="e.g. John"
-          class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
-        />
-        @if (firstName.hasError("required") && firstName.touched) {
-          <span class="text-xs text-red-500">First name is required</span>
-        }
-      </div>
-      <div class="flex flex-col gap-1">
-        <label for="lastName">Last Name</label>
-        <input
-          id="lastName"
-          type="text"
-          formControlName="lastName"
-          placeholder="e.g. Doe"
-          class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
-        />
-        @if (lastName.hasError("required") && lastName.touched) {
-          <span class="text-xs text-red-500">Last name is required</span>
-        }
-      </div>
-      <div class="flex flex-col gap-1">
-        <label for="dateOfBirth">Date of Birth</label>
-        <input
-          id="dateOfBirth"
-          type="date"
-          formControlName="dateOfBirth"
-          class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
-        />
-        @if (dateOfBirth.hasError("required") && dateOfBirth.touched) {
-          <span class="text-xs text-red-500">Date of birth is required</span>
-        }
-      </div>
-      <div class="flex flex-col gap-1">
-        <label for="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          formControlName="email"
-          placeholder="e.g. john.doe@example.com"
-          class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
-        />
-        @if (email.hasError("email") && email.touched) {
-          <span class="text-xs text-red-500">Please enter a valid email</span>
-        }
-      </div>
-      <div class="flex flex-col gap-1">
-        <label for="phoneNumber">Phone Number</label>
-        <input
-          id="phoneNumber"
-          type="tel"
-          formControlName="phoneNumber"
-          placeholder="e.g. 123-456-7890"
-          class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
-        />
-      </div>
-      <div class="flex flex-col gap-1">
-        <label for="hireDate">Hire Date</label>
-        <input
-          id="hireDate"
-          type="date"
-          formControlName="hireDate"
-          class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
-        />
-        @if (hireDate.hasError("required") && hireDate.touched) {
-          <span class="text-xs text-red-500">Hire date is required</span>
-        }
-      </div>
-      <div class="flex flex-col gap-1">
-        <label for="jobTitle">Job Title</label>
-        <input
-          id="jobTitle"
-          type="text"
-          formControlName="jobTitle"
-          placeholder="e.g. Software Engineer"
-          class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
-        />
-        @if (jobTitle.hasError("required") && jobTitle.touched) {
-          <span class="text-xs text-red-500">Job title is required</span>
-        }
-      </div>
-      <div class="flex flex-col gap-1">
-        <label for="department">Department</label>
-        <input
-          id="department"
-          type="text"
-          formControlName="department"
-          placeholder="e.g. Technology"
-          class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
-        />
-        @if (department.hasError("required") && department.touched) {
-          <span class="text-xs text-red-500">Department is required</span>
-        }
-      </div>
-      <button
-        type="submit"
-        [disabled]="isSubmitting || form.invalid"
-        class="rounded bg-stone-800 px-4 py-2 text-sm font-medium text-white not-disabled:hover:bg-stone-700 disabled:opacity-50"
-      >
-        ADD
-      </button>
-    </form>
-  </app-overlay-card>
-</app-overlay>
+    <div class="flex flex-col gap-1">
+      <label for="lastName">Last Name</label>
+      <input
+        id="lastName"
+        type="text"
+        formControlName="lastName"
+        placeholder="e.g. Doe"
+        class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
+      />
+      @if (lastName.hasError("required") && lastName.touched) {
+        <span class="text-xs text-red-500">Last name is required</span>
+      }
+    </div>
+    <div class="flex flex-col gap-1">
+      <label for="dateOfBirth">Date of Birth</label>
+      <input
+        id="dateOfBirth"
+        type="date"
+        formControlName="dateOfBirth"
+        class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
+      />
+      @if (dateOfBirth.hasError("required") && dateOfBirth.touched) {
+        <span class="text-xs text-red-500">Date of birth is required</span>
+      }
+    </div>
+    <div class="flex flex-col gap-1">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        placeholder="e.g. john.doe@example.com"
+        class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
+      />
+      @if (email.hasError("email") && email.touched) {
+        <span class="text-xs text-red-500">Please enter a valid email</span>
+      }
+    </div>
+    <div class="flex flex-col gap-1">
+      <label for="phoneNumber">Phone Number</label>
+      <input
+        id="phoneNumber"
+        type="tel"
+        formControlName="phoneNumber"
+        placeholder="e.g. 123-456-7890"
+        class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
+      />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label for="hireDate">Hire Date</label>
+      <input
+        id="hireDate"
+        type="date"
+        formControlName="hireDate"
+        class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
+      />
+      @if (hireDate.hasError("required") && hireDate.touched) {
+        <span class="text-xs text-red-500">Hire date is required</span>
+      }
+    </div>
+    <div class="flex flex-col gap-1">
+      <label for="jobTitle">Job Title</label>
+      <input
+        id="jobTitle"
+        type="text"
+        formControlName="jobTitle"
+        placeholder="e.g. Software Engineer"
+        class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
+      />
+      @if (jobTitle.hasError("required") && jobTitle.touched) {
+        <span class="text-xs text-red-500">Job title is required</span>
+      }
+    </div>
+    <div class="flex flex-col gap-1">
+      <label for="department">Department</label>
+      <input
+        id="department"
+        type="text"
+        formControlName="department"
+        placeholder="e.g. Technology"
+        class="w-full rounded border border-stone-300 p-2 placeholder:text-stone-400"
+      />
+      @if (department.hasError("required") && department.touched) {
+        <span class="text-xs text-red-500">Department is required</span>
+      }
+    </div>
+    <button
+      type="submit"
+      [disabled]="isSubmitting || form.invalid"
+      class="rounded bg-stone-800 px-4 py-2 text-sm font-medium text-white not-disabled:hover:bg-stone-700 disabled:opacity-50"
+    >
+      ADD
+    </button>
+  </form>
+</div>

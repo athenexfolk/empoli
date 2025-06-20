@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { EmployeeList } from '../employee-list/employee-list';
 import { Toggler } from '../../../shared/utils/toggler';
 import { AddEmployee } from '../add-employee/add-employee';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-employee-manager',
-  imports: [EmployeeList, AddEmployee],
+  imports: [EmployeeList, AddEmployee, RouterLink],
   templateUrl: './employee-manager.page.html',
   styleUrl: './employee-manager.page.css',
 })

@@ -1,6 +1,4 @@
 import { Component, output, inject } from '@angular/core';
-import { Overlay } from '../../../shared/components/overlay/overlay';
-import { OverlayCard } from '../../../shared/components/overlay-card/overlay-card';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmployeeService } from '../../../core/services/employee.service';
 import type { CreateEmployeeDto } from '../../../core/dtos/create-employee';
@@ -8,7 +6,7 @@ import { EmployeeStore } from '../../../core/stores/employee.store';
 
 @Component({
   selector: 'app-add-employee',
-  imports: [Overlay, OverlayCard, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './add-employee.html',
   styleUrl: './add-employee.css',
 })
