@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 
 @Component({
-  selector: 'i[sortIndicator]',
+  selector: 'sort-indicator',
   template: 'north',
   host: {
     class: 'ms small transition-all duration-300',

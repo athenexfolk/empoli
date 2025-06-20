@@ -1,20 +1,9 @@
-<div class="p-8">
-  <h1 class="mb-8 text-4xl font-bold">Employee Manager</h1>
-
+<page-wrapper pageTitle="Employee Manager">
   <div class="mb-2">
-    <a
-      routerLink="add"
-      (click)="addPanel.activate()"
-      class="inline-flex items-center gap-2 rounded bg-stone-800 px-4 py-2 text-sm font-medium text-white"
-    >
-      <i class="ms">add</i>
-      ADD EMPLOYEE
-    </a>
+    <brk-button routerLink="add" (click)="addPanel.activate()">
+      <icon name="add" />
+      Add Employee
+    </brk-button>
   </div>
-
-  <app-employee-list />
-
-  @if (addPanel.active) {
-    <app-add-employee (closed)="addPanel.deactivate()" />
-  }
-</div>
+  <employee-list />
+</page-wrapper>

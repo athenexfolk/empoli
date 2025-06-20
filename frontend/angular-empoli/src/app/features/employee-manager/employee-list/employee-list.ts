@@ -7,11 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { compareField } from '../../../shared/utils/compare-field';
 import { SortIndicator } from '../../../shared/components/sort-indicator/sort-indicator';
 import { Toggler } from '../../../shared/utils/toggler';
-import { UpdateEmployee } from "../update-employee/update-employee";
+import { UpdateEmployee } from '../update-employee/update-employee';
+import { Button } from '../../../shared/components/button/button';
 
 @Component({
-  selector: 'app-employee-list',
-  imports: [CdkTableModule, FormsModule, SortIndicator, UpdateEmployee],
+  selector: 'employee-list',
+  imports: [CdkTableModule, FormsModule, SortIndicator, UpdateEmployee, Button],
   templateUrl: './employee-list.html',
   styleUrl: './employee-list.css',
 })
@@ -22,7 +23,13 @@ export class EmployeeList {
   protected sortField = signal<keyof Employee>('employeeId');
   protected sortDirection = signal<SortDirection>('asc');
 
-  protected displayedColumns = ['employeeId', 'firstName', 'lastName', 'action'];
+  protected displayedColumns = [
+    'index',
+    'employeeId',
+    'firstName',
+    'lastName',
+    'action',
+  ];
 
   protected employeeIdFilter = signal('');
   protected firstNameFilter = signal('');
@@ -45,7 +52,9 @@ export class EmployeeList {
       .items()
       .filter(
         (emp) =>
-          emp.employeeId.toLowerCase().includes(this.employeeIdFilter().toLowerCase()) &&
+          emp.employeeId
+            .toLowerCase()
+            .includes(this.employeeIdFilter().toLowerCase()) &&
           emp.firstName
             .toLowerCase()
             .includes(this.firstNameFilter().toLowerCase()) &&

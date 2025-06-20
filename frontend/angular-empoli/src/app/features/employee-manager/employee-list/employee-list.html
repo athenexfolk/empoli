@@ -2,112 +2,72 @@
   <table
     cdk-table
     [dataSource]="filteredEmployees()"
-    class="min-h-28 w-full table-fixed"
+    class="min-h-28 w-full table-auto"
   >
+    <colgroup>
+      <col />
+      <col span="3" class="min-w-40" />
+      <col />
+    </colgroup>
+    <ng-container cdkColumnDef="index">
+      <th cdk-header-cell *cdkHeaderCellDef>#</th>
+      <td cdk-cell *cdkCellDef="let employee; let i = index">
+        {{ i + 1 }}
+      </td>
+    </ng-container>
     <ng-container cdkColumnDef="employeeId">
-      <th cdk-header-cell *cdkHeaderCellDef class="">
-        <div class="-mx-4 -my-1 flex items-center">
-          <div class="relative">
-            <button
-              (click)="employeeIdSearchPanel.toggle()"
-              class="flex items-center rounded-xl p-2 hover:bg-stone-100"
-            >
-              <i class="ms">filter_alt</i>
-            </button>
-            @if (employeeIdSearchPanel.active) {
-              <div
-                class="absolute top-full left-2 z-5 rounded-lg border border-stone-300 bg-white p-1 shadow-lg"
-              >
-                <input
-                  [ngModel]="employeeIdFilter()"
-                  (ngModelChange)="employeeIdFilter.set($event)"
-                  placeholder="Employee Id"
-                  class="rounded-md border border-stone-300 px-4 py-2 placeholder:text-stone-300"
-                />
-              </div>
-            }
-          </div>
-          <button
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <div class="-mx-4 -my-1">
+          <brk-button
+            variant="ghost"
             (click)="setSort('employeeId')"
-            class="flex items-center gap-1 rounded-xl p-2 hover:bg-stone-100"
+            class="rounded-xl font-bold"
           >
-            Employee ID
-            @if (sortField() === "employeeId") {
-              <i sortIndicator [direction]="sortDirection()"></i>
-            }
-          </button>
+            <span class="flex items-center gap-1">
+              Employee ID
+              @if (sortField() === "employeeId") {
+                <sort-indicator [direction]="sortDirection()" />
+              }
+            </span>
+          </brk-button>
         </div>
       </th>
       <td cdk-cell *cdkCellDef="let employee">{{ employee.employeeId }}</td>
     </ng-container>
     <ng-container cdkColumnDef="firstName">
       <th cdk-header-cell *cdkHeaderCellDef>
-        <div class="-mx-4 -my-1 flex items-center">
-          <div class="relative">
-            <button
-              (click)="firstNameSearchPanel.toggle()"
-              class="flex items-center rounded-xl p-2 hover:bg-stone-100"
-            >
-              <i class="ms">filter_alt</i>
-            </button>
-            @if (firstNameSearchPanel.active) {
-              <div
-                class="absolute top-full left-2 z-5 rounded-lg border border-stone-300 bg-white p-1 shadow-lg"
-              >
-                <input
-                  [ngModel]="firstNameFilter()"
-                  (ngModelChange)="firstNameFilter.set($event)"
-                  placeholder="First Name"
-                  class="rounded-md border border-stone-300 px-4 py-2 placeholder:text-stone-300"
-                />
-              </div>
-            }
-          </div>
-          <button
+        <div class="-mx-4 -my-1">
+          <brk-button
+            variant="ghost"
             (click)="setSort('firstName')"
-            class="flex items-center gap-1 rounded-xl p-2 hover:bg-stone-100"
+            class="rounded-xl font-bold"
           >
-            First Name
-            @if (sortField() === "firstName") {
-              <i sortIndicator [direction]="sortDirection()"></i>
-            }
-          </button>
+            <span class="flex items-center gap-1">
+              First Name
+              @if (sortField() === "firstName") {
+                <sort-indicator [direction]="sortDirection()" />
+              }
+            </span>
+          </brk-button>
         </div>
       </th>
       <td cdk-cell *cdkCellDef="let employee">{{ employee.firstName }}</td>
     </ng-container>
     <ng-container cdkColumnDef="lastName">
       <th cdk-header-cell *cdkHeaderCellDef>
-        <div class="-mx-4 -my-1 flex items-center">
-          <div class="relative">
-            <button
-              (click)="lastNameSearchPanel.toggle()"
-              class="flex items-center rounded-xl p-2 hover:bg-stone-100"
-            >
-              <i class="ms">filter_alt</i>
-            </button>
-            @if (lastNameSearchPanel.active) {
-              <div
-                class="absolute top-full left-2 z-5 rounded-lg border border-stone-300 bg-white p-1 shadow-lg"
-              >
-                <input
-                  [ngModel]="lastNameFilter()"
-                  (ngModelChange)="lastNameFilter.set($event)"
-                  placeholder="Last Name"
-                  class="rounded-md border border-stone-300 px-4 py-2 placeholder:text-stone-300"
-                />
-              </div>
-            }
-          </div>
-          <button
+        <div class="-mx-4 -my-1">
+          <brk-button
+            variant="ghost"
             (click)="setSort('lastName')"
-            class="flex items-center gap-1 rounded-xl p-2 hover:bg-stone-100"
+            class="rounded-xl font-bold"
           >
-            Last Name
-            @if (sortField() === "lastName") {
-              <i sortIndicator [direction]="sortDirection()"></i>
-            }
-          </button>
+            <span class="flex items-center gap-1">
+              Last Name
+              @if (sortField() === "lastName") {
+                <sort-indicator [direction]="sortDirection()" />
+              }
+            </span>
+          </brk-button>
         </div>
       </th>
       <td cdk-cell *cdkCellDef="let employee">{{ employee.lastName }}</td>
@@ -132,11 +92,13 @@
     <tr
       cdk-row
       *cdkRowDef="let row; columns: displayedColumns"
-      class="*:min-w-48 *:px-4 *:py-2 hover:bg-stone-100"
+      class="*:px-4 *:py-2 hover:bg-stone-100"
     ></tr>
 
     <tr *cdkNoDataRow>
-      <td class="h-48 text-center" colspan="4">No data.</td>
+      <td class="h-48 text-center" [colSpan]="displayedColumns.length">
+        No data.
+      </td>
     </tr>
   </table>
 </div>

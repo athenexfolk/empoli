@@ -5,7 +5,7 @@
 ></div>
 
 <div
-  [class]="`fixed top-0 md:left-0 flex h-dvh w-72 flex-col gap-4 bg-white z-10 p-4 transition-all duration-500 ${sidebarService.sidebar.active ? 'left-0' : '-left-72'}`"
+  [class]="`fixed top-0 md:left-0 flex h-dvh w-72 flex-col gap-4 bg-stone-50 z-10 p-4 transition-all duration-500 ${sidebarService.sidebar.active ? 'left-0' : '-left-72'}`"
 >
   <a class="text-center text-2xl font-bold">EMPOLI</a>
   <div class="flex flex-col items-center gap-2 rounded-xl p-2">
@@ -16,15 +16,17 @@
     <ul class="flex flex-col">
       <li>
         <a
-          class="flex w-full items-center gap-2 rounded-full px-4 py-2 font-medium hover:bg-stone-800 hover:text-white"
+          routerLink="/"
+          class="flex w-full items-center gap-2 rounded px-4 py-2 font-medium hover:bg-stone-800 hover:text-white"
         >
-          <i class="ms">home</i>
-          Home
+          <i class="ms">dashboard</i>
+          Dashboard
         </a>
       </li>
       <li>
         <a
-          class="flex w-full items-center gap-2 rounded-full px-4 py-2 font-medium hover:bg-stone-800 hover:text-white"
+          routerLink="/employee-manager"
+          class="flex w-full items-center gap-2 rounded px-4 py-2 font-medium hover:bg-stone-800 hover:text-white"
         >
           <i class="ms">people</i>
           Employee

@@ -1,6 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+    user-select: none;
+  }
+}
+
+@utility brk-btn__base {
+  @apply rounded px-4 py-2 text-sm font-medium uppercase transition-all focus:outline-none active:scale-95 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+@utility brk-btn__primary {
+  @apply brk-btn__base bg-stone-800 text-white hover:bg-stone-700;
+}
+
+@utility brk-btn__ghost {
+  @apply brk-btn__base bg-transparent text-stone-900 hover:bg-stone-50;
+}
+
 @font-face {
   font-family: Jost;
   src: url("/fonts/Jost.ttf") format("truetype");

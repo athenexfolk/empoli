@@ -3,10 +3,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmployeeService } from '../../../core/services/employee.service';
 import type { CreateEmployeeDto } from '../../../core/dtos/create-employee';
 import { EmployeeStore } from '../../../core/stores/employee.store';
+import { PageWrapper } from '../../../shared/components/page-wrapper/page-wrapper';
 
 @Component({
   selector: 'app-add-employee',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, PageWrapper],
   templateUrl: './add-employee.html',
   styleUrl: './add-employee.css',
 })
@@ -16,14 +17,20 @@ export class AddEmployee {
   private readonly employeeService = inject(EmployeeService);
 
   form = this.fb.nonNullable.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    dateOfBirth: ['', Validators.required],
-    email: ['', Validators.email],
-    phoneNumber: [''],
-    hireDate: ['', Validators.required],
-    jobTitle: ['', Validators.required],
-    department: ['', Validators.required],
+    personal: this.fb.nonNullable.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+    }),
+    contact: this.fb.nonNullable.group({
+      email: ['', [Validators.email]],
+      phoneNumber: [''],
+    }),
+    job: this.fb.nonNullable.group({
+      hireDate: ['', Validators.required],
+      jobTitle: ['', Validators.required],
+      department: ['', Validators.required],
+    }),
   });
 
   isSubmitting = false;
@@ -31,35 +38,35 @@ export class AddEmployee {
   closed = output();
 
   get firstName() {
-    return this.form.get('firstName')!;
+    return this.form.get('personal.firstName')!;
   }
 
   get lastName() {
-    return this.form.get('lastName')!;
+    return this.form.get('personal.lastName')!;
   }
 
   get dateOfBirth() {
-    return this.form.get('dateOfBirth')!;
+    return this.form.get('personal.dateOfBirth')!;
   }
 
   get email() {
-    return this.form.get('email')!;
+    return this.form.get('contact.email')!;
   }
 
   get phoneNumber() {
-    return this.form.get('phoneNumber')!;
+    return this.form.get('contact.phoneNumber')!;
   }
 
   get hireDate() {
-    return this.form.get('hireDate')!;
+    return this.form.get('job.hireDate')!;
   }
 
   get jobTitle() {
-    return this.form.get('jobTitle')!;
+    return this.form.get('job.jobTitle')!;
   }
 
   get department() {
-    return this.form.get('department')!;
+    return this.form.get('job.department')!;
   }
 
   submit() {
