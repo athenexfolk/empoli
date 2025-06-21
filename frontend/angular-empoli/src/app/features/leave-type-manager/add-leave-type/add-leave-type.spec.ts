@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteEmployee } from './delete-employee';
+import { AddLeaveType } from './add-leave-type';
 
-describe('DeleteEmployee', () => {
-  let component: DeleteEmployee;
-  let fixture: ComponentFixture<DeleteEmployee>;
+describe('AddLeaveType', () => {
+  let component: AddLeaveType;
+  let fixture: ComponentFixture<AddLeaveType>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeleteEmployee]
+      imports: [AddLeaveType]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DeleteEmployee);
+    fixture = TestBed.createComponent(AddLeaveType);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -13,4 +13,11 @@ export const routes: Routes = [
         (r) => r.routes,
       ),
   },
+  {
+    path: 'leave-type-manager',
+    loadChildren: () =>
+      import('./features/leave-type-manager/leave-type-manager.routes').then(
+        (r) => r.routes,
+      ),
+  },
 ];

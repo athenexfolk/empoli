@@ -1,0 +1,91 @@
+<div class="overflow-x-auto">
+  <table
+    cdk-table
+    [dataSource]="filteredLeaveTypes()"
+    class="min-h-28 w-full table-auto"
+  >
+    <ng-container cdkColumnDef="index">
+      <th cdk-header-cell *cdkHeaderCellDef>#</th>
+      <td cdk-cell *cdkCellDef="let leaveType; let i = index">{{ i + 1 }}</td>
+    </ng-container>
+    <ng-container cdkColumnDef="name">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <div class="-mx-4 -my-1">
+          <brk-button
+            variant="ghost"
+            (click)="setSort('name')"
+            class="rounded-xl font-bold"
+          >
+            <span class="flex items-center gap-1">
+              Name
+              @if (sortField() === "name") {
+                <sort-indicator [direction]="sortDirection()" />
+              }
+            </span>
+          </brk-button>
+        </div>
+      </th>
+      <td cdk-cell *cdkCellDef="let leaveType">{{ leaveType.name }}</td>
+    </ng-container>
+    <ng-container cdkColumnDef="maxDays">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <div class="-mx-4 -my-1">
+          <brk-button
+            variant="ghost"
+            (click)="setSort('maxDays')"
+            class="rounded-xl font-bold"
+          >
+            <span class="flex items-center gap-1">
+              Max Days
+              @if (sortField() === "maxDays") {
+                <sort-indicator [direction]="sortDirection()" />
+              }
+            </span>
+          </brk-button>
+        </div>
+      </th>
+      <td cdk-cell *cdkCellDef="let leaveType">{{ leaveType.maxDays }}</td>
+    </ng-container>
+    <ng-container cdkColumnDef="requireApproval">
+      <th cdk-header-cell *cdkHeaderCellDef>Require Approval</th>
+      <td cdk-cell *cdkCellDef="let leaveType">
+        {{ leaveType.requireApproval ? "Yes" : "No" }}
+      </td>
+    </ng-container>
+    <ng-container cdkColumnDef="paidLeave">
+      <th cdk-header-cell *cdkHeaderCellDef>Paid Leave</th>
+      <td cdk-cell *cdkCellDef="let leaveType">
+        {{ leaveType.paidLeave ? "Yes" : "No" }}
+      </td>
+    </ng-container>
+    <ng-container cdkColumnDef="description">
+      <th cdk-header-cell *cdkHeaderCellDef>Description</th>
+      <td cdk-cell *cdkCellDef="let leaveType">{{ leaveType.description }}</td>
+    </ng-container>
+    <ng-container cdkColumnDef="actions">
+      <th cdk-header-cell *cdkHeaderCellDef>Actions</th>
+      <td cdk-cell *cdkCellDef="let leaveType">
+        <a [routerLink]="['update', leaveType.id]" class="flex items-center">
+          <i class="ms">edit</i>
+        </a>
+      </td>
+    </ng-container>
+
+    <tr
+      cdk-header-row
+      *cdkHeaderRowDef="displayedColumns"
+      class="border-y border-stone-300 *:border-stone-300 *:px-4 *:py-2"
+    ></tr>
+    <tr
+      cdk-row
+      *cdkRowDef="let row; columns: displayedColumns"
+      class="*:w-max *:min-w-40 *:px-4 *:py-2 **:whitespace-nowrap hover:bg-stone-100"
+    ></tr>
+
+    <tr *cdkNoDataRow>
+      <td class="h-48 text-center" [colSpan]="displayedColumns.length">
+        No data.
+      </td>
+    </tr>
+  </table>
+</div>

@@ -10,6 +10,7 @@ import { Toggler } from '../../../shared/utils/toggler';
 import { Button } from '../../../shared/components/button/button';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { Icon } from "../../../shared/components/icon/icon";
 
 @Component({
   selector: 'employee-list',
@@ -20,7 +21,8 @@ import { DatePipe } from '@angular/common';
     Button,
     RouterLink,
     DatePipe,
-  ],
+    Icon
+],
   templateUrl: './employee-list.html',
   styleUrl: './employee-list.css',
 })
@@ -49,10 +51,24 @@ export class EmployeeList {
   protected employeeIdFilter = signal('');
   protected firstNameFilter = signal('');
   protected lastNameFilter = signal('');
+  protected emailFilter = signal('');
+  protected phoneNumberFilter = signal('');
+  protected dateOfBirthFilter = signal('');
+  protected hireDateFilter = signal('');
+  protected jobTitleFilter = signal('');
+  protected departmentFilter = signal('');
+  protected statusFilter = signal('');
 
   protected employeeIdSearchPanel = new Toggler();
   protected firstNameSearchPanel = new Toggler();
   protected lastNameSearchPanel = new Toggler();
+  protected emailSearchPanel = new Toggler();
+  protected phoneNumberSearchPanel = new Toggler();
+  protected dateOfBirthSearchPanel = new Toggler();
+  protected hireDateSearchPanel = new Toggler();
+  protected jobTitleSearchPanel = new Toggler();
+  protected departmentSearchPanel = new Toggler();
+  protected statusSearchPanel = new Toggler();
 
   protected currentFocusedEmployee = signal<Employee | null>(null);
 
@@ -64,15 +80,37 @@ export class EmployeeList {
       .items()
       .filter(
         (emp) =>
-          emp.employeeId
-            .toLowerCase()
-            .includes(this.employeeIdFilter().toLowerCase()) &&
-          emp.firstName
-            .toLowerCase()
-            .includes(this.firstNameFilter().toLowerCase()) &&
-          emp.lastName
-            .toLowerCase()
-            .includes(this.lastNameFilter().toLowerCase()),
+          (emp.employeeId?.toLowerCase() ?? '').includes(
+            this.employeeIdFilter().toLowerCase(),
+          ) &&
+          (emp.firstName?.toLowerCase() ?? '').includes(
+            this.firstNameFilter().toLowerCase(),
+          ) &&
+          (emp.lastName?.toLowerCase() ?? '').includes(
+            this.lastNameFilter().toLowerCase(),
+          ) &&
+          (emp.email?.toLowerCase() ?? '').includes(
+            this.emailFilter().toLowerCase(),
+          ) &&
+          (emp.phoneNumber?.toLowerCase() ?? '').includes(
+            this.phoneNumberFilter().toLowerCase(),
+          ) &&
+          (this.dateOfBirthFilter() === '' ||
+            (emp.dateOfBirth &&
+              emp.dateOfBirth.toString().includes(this.dateOfBirthFilter()))) &&
+          (this.hireDateFilter() === '' ||
+            (emp.hireDate &&
+              emp.hireDate.toString().includes(this.hireDateFilter()))) &&
+          (emp.jobTitle?.toLowerCase() ?? '').includes(
+            this.jobTitleFilter().toLowerCase(),
+          ) &&
+          (emp.department?.toLowerCase() ?? '').includes(
+            this.departmentFilter().toLowerCase(),
+          ) &&
+          (emp.status !== undefined && emp.status !== null
+            ? emp.status.toString().toLowerCase()
+            : ''
+          ).includes(this.statusFilter().toLowerCase()),
       )
       .sort((a, b) => compareField(a, b, field, direction));
   });
