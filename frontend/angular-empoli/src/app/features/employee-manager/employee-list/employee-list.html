@@ -67,13 +67,158 @@
       </th>
       <td cdk-cell *cdkCellDef="let employee">{{ employee.lastName }}</td>
     </ng-container>
+    <ng-container cdkColumnDef="email">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <div class="-mx-4 -my-1">
+          <brk-button
+            variant="ghost"
+            (click)="setSort('email')"
+            class="rounded-xl font-bold"
+          >
+            <span class="flex items-center gap-1">
+              Email
+              @if (sortField() === "email") {
+                <sort-indicator [direction]="sortDirection()" />
+              }
+            </span>
+          </brk-button>
+        </div>
+      </th>
+      <td cdk-cell *cdkCellDef="let employee">{{ employee.email }}</td>
+    </ng-container>
+    <ng-container cdkColumnDef="phoneNumber">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <div class="-mx-4 -my-1">
+          <brk-button
+            variant="ghost"
+            (click)="setSort('phoneNumber')"
+            class="rounded-xl font-bold"
+          >
+            <span class="flex items-center gap-1">
+              Phone
+              @if (sortField() === "phoneNumber") {
+                <sort-indicator [direction]="sortDirection()" />
+              }
+            </span>
+          </brk-button>
+        </div>
+      </th>
+      <td cdk-cell *cdkCellDef="let employee">{{ employee.phone }}</td>
+    </ng-container>
+    <ng-container cdkColumnDef="department">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <div class="-mx-4 -my-1">
+          <brk-button
+            variant="ghost"
+            (click)="setSort('department')"
+            class="rounded-xl font-bold"
+          >
+            <span class="flex items-center gap-1">
+              Department
+              @if (sortField() === "department") {
+                <sort-indicator [direction]="sortDirection()" />
+              }
+            </span>
+          </brk-button>
+        </div>
+      </th>
+      <td cdk-cell *cdkCellDef="let employee">{{ employee.department }}</td>
+    </ng-container>
+    <ng-container cdkColumnDef="dateOfBirth">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <div class="-mx-4 -my-1">
+          <brk-button
+            variant="ghost"
+            (click)="setSort('dateOfBirth')"
+            class="rounded-xl font-bold"
+          >
+            <span class="flex items-center gap-1">
+              Date of Birth
+              @if (sortField() === "dateOfBirth") {
+                <sort-indicator [direction]="sortDirection()" />
+              }
+            </span>
+          </brk-button>
+        </div>
+      </th>
+      <td cdk-cell *cdkCellDef="let employee">
+        {{ employee.dateOfBirth | date: "dd/MMM/yyyy" }}
+      </td>
+    </ng-container>
+    <ng-container cdkColumnDef="hireDate">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <div class="-mx-4 -my-1">
+          <brk-button
+            variant="ghost"
+            (click)="setSort('hireDate')"
+            class="rounded-xl font-bold"
+          >
+            <span class="flex items-center gap-1">
+              Hire Date
+              @if (sortField() === "hireDate") {
+                <sort-indicator [direction]="sortDirection()" />
+              }
+            </span>
+          </brk-button>
+        </div>
+      </th>
+      <td cdk-cell *cdkCellDef="let employee">
+        {{ employee.hireDate | date: "dd/MMM/yyyy" }}
+      </td>
+    </ng-container>
+    <ng-container cdkColumnDef="jobTitle">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <div class="-mx-4 -my-1">
+          <brk-button
+            variant="ghost"
+            (click)="setSort('jobTitle')"
+            class="rounded-xl font-bold"
+          >
+            <span class="flex items-center gap-1">
+              Job Title
+              @if (sortField() === "jobTitle") {
+                <sort-indicator [direction]="sortDirection()" />
+              }
+            </span>
+          </brk-button>
+        </div>
+      </th>
+      <td cdk-cell *cdkCellDef="let employee">{{ employee.jobTitle }}</td>
+    </ng-container>
+    <ng-container cdkColumnDef="status">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <div class="-mx-4 -my-1">
+          <brk-button
+            variant="ghost"
+            (click)="setSort('status')"
+            class="rounded-xl font-bold"
+          >
+            <span class="flex items-center gap-1">
+              Status
+              @if (sortField() === "status") {
+                <sort-indicator [direction]="sortDirection()" />
+              }
+            </span>
+          </brk-button>
+        </div>
+      </th>
+      <td cdk-cell *cdkCellDef="let employee">
+        <div class="mx-auto flex items-center">
+          <span
+            [class]="`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${employee.status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`"
+          >
+            {{ employee.status ? "Active" : "Inactive" }}
+          </span>
+        </div>
+      </td>
+    </ng-container>
     <ng-container cdkColumnDef="action">
       <th cdk-header-cell *cdkHeaderCellDef></th>
       <td cdk-cell *cdkCellDef="let employee">
         <div class="mx-auto flex items-center gap-4">
-          <button (click)="openupdatePanel(employee)" class="flex items-center">
+          <a [routerLink]="`update/${employee.id}`" class="flex items-center">
             <i class="ms">edit</i>
-          </button>
+          </a>
           <button class="flex items-center"><i class="ms">delete</i></button>
         </div>
       </td>
@@ -87,7 +232,7 @@
     <tr
       cdk-row
       *cdkRowDef="let row; columns: displayedColumns"
-      class="*:min-w-40 *:px-4 *:py-2 hover:bg-stone-100"
+      class="*:w-max *:min-w-40 *:px-4 *:py-2 **:whitespace-nowrap hover:bg-stone-100"
     ></tr>
 
     <tr *cdkNoDataRow>
@@ -97,10 +242,3 @@
     </tr>
   </table>
 </div>
-
-@if (currentFocusedEmployee() && updatePanel.active) {
-  <app-update-employee
-    [employee]="currentFocusedEmployee()!"
-    (closed)="closeupdatePanel()"
-  />
-}

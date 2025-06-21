@@ -3,10 +3,10 @@ export interface Employee {
   employeeId: string;
   firstName: string;
   lastName: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
   email?: string;
   phoneNumber?: string;
-  hireDate: Date;
+  hireDate: string;
   jobTitle: string;
   department: string;
   status: boolean;

@@ -7,12 +7,13 @@ import { FormsModule } from '@angular/forms';
 import { compareField } from '../../../shared/utils/compare-field';
 import { SortIndicator } from '../../../shared/components/sort-indicator/sort-indicator';
 import { Toggler } from '../../../shared/utils/toggler';
-import { UpdateEmployee } from '../update-employee/update-employee';
 import { Button } from '../../../shared/components/button/button';
+import { RouterLink } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'employee-list',
-  imports: [CdkTableModule, FormsModule, SortIndicator, UpdateEmployee, Button],
+  imports: [CdkTableModule, FormsModule, SortIndicator, Button, RouterLink, DatePipe],
   templateUrl: './employee-list.html',
   styleUrl: './employee-list.css',
 })
@@ -28,6 +29,13 @@ export class EmployeeList {
     'employeeId',
     'firstName',
     'lastName',
+    'email',
+    'phoneNumber',
+    'dateOfBirth',
+    'hireDate',
+    'jobTitle',
+    'department',
+    'status',
     'action',
   ];
 
@@ -39,7 +47,6 @@ export class EmployeeList {
   protected firstNameSearchPanel = new Toggler();
   protected lastNameSearchPanel = new Toggler();
 
-  protected readonly updatePanel = new Toggler();
   protected readonly deletePanel = new Toggler();
 
   protected currentFocusedEmployee = signal<Employee | null>(null);
@@ -85,16 +92,6 @@ export class EmployeeList {
       this.sortField.set(field);
       this.sortDirection.set('asc');
     }
-  }
-
-  openupdatePanel(employee: Employee) {
-    this.currentFocusedEmployee.set(employee);
-    this.updatePanel.activate();
-  }
-
-  closeupdatePanel() {
-    this.updatePanel.deactivate();
-    this.currentFocusedEmployee.set(null);
   }
 
   openDeletePanel(employee: Employee) {

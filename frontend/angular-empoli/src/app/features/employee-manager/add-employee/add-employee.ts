@@ -39,6 +39,7 @@ export class AddEmployee {
 
   isSubmitting = false;
 
+  successMessage?: string;
   errorMessage?: string;
 
   get firstName() {
@@ -96,18 +97,27 @@ export class AddEmployee {
           this.form.enable();
           this.isSubmitting = false;
           this.errorMessage = undefined;
+          this.successMessage = 'Employee created successfully!';
           this.toastService.push(
             'Successfully!',
-            'Create employee completed',
+            this.successMessage,
             'success',
           );
         },
         error: (err) => {
-          console.error('Failed to add employee', err);
           this.form.enable();
           this.isSubmitting = false;
-          this.errorMessage = 'Failed to add employee. Please try again later.';
-          this.toastService.push('Failed!', this.errorMessage, 'error');
+          this.successMessage = undefined;
+          if (Array.isArray(err.error)) {
+            this.errorMessage = err.error
+              .map((e: any) => e.errorMessage)
+              .filter((msg: string) => !!msg)
+              .join('\n');
+          } else {
+            this.errorMessage =
+              'Failed to add employee. Please try again later.';
+          }
+          this.toastService.push('Failed!', this.errorMessage!, 'error');
         },
       });
     } else {

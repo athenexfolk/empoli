@@ -10,7 +10,7 @@
 }
 
 @utility brk-btn__base {
-  @apply rounded px-4 py-2 text-sm font-medium uppercase transition-all focus:outline-none not-disabled:active:scale-95 disabled:cursor-not-allowed disabled:opacity-50;
+  @apply rounded px-4 py-2 text-sm font-semibold uppercase transition-all focus:outline-none not-disabled:active:scale-95 disabled:cursor-not-allowed disabled:opacity-50;
 }
 
 @utility brk-btn__primary {
@@ -21,9 +21,21 @@
   @apply brk-btn__base bg-transparent text-stone-900 not-disabled:hover:bg-stone-50;
 }
 
+@utility brk-input {
+  @apply rounded border border-stone-300 p-2 outline-0 placeholder:text-stone-400;
+}
+
+@utility brk-input__error {
+  @apply border-red-300 text-red-500 ring-2 ring-red-200 placeholder:text-red-400;
+}
+
+@utility brk-label {
+  @apply text-sm font-medium text-stone-700;
+}
+
 @font-face {
-  font-family: Jost;
-  src: url("/fonts/Jost.ttf") format("truetype");
+  font-family: "Figtree";
+  src: url("/fonts/Figtree.ttf") format("truetype");
 }
 
 @font-face {
@@ -59,7 +71,7 @@ th {
 }
 
 body {
-  font-family: Jost, sans-serif;
+  font-family: "Figtree", sans-serif;
 }
 
 .scrollbar-thin {

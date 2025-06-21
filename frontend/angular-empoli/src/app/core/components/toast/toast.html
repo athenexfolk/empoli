@@ -1,8 +1,8 @@
-<div class="fixed top-4 z-999 max-sm:inset-x-4 sm:right-4 sm:w-64">
+<div class="fixed top-4 z-999 max-sm:inset-x-4 sm:right-4 sm:w-72">
   @for (toast of toastService.toasts(); track toast.date) {
     <div
       [@toastAnim]
-      class="absolute left-0 w-full rounded border border-stone-200 bg-white/80 p-4 text-sm shadow-lg backdrop-blur transition-all"
+      [class]="`absolute left-0 w-full rounded border bg-white/80 p-4 text-sm shadow-lg shadow-current/5 backdrop-blur transition-all ${toast.type === 'error' ? 'border-red-200 text-red-500' : toast.type === 'success' ? 'border-green-200 text-green-500' : toast.type === 'warning' ? 'border-yellow-200 text-yellow-500' : 'border-blue-200 text-blue-500'}`"
       [style.top]="(toastService.toasts().length - 1 - $index) * 0.75 + 'rem'"
       [style.zIndex]="100 + $index"
       [style.transform]="
@@ -14,10 +14,22 @@
       "
     >
       <div class="flex justify-start gap-2">
-        <icon [name]="toast.type === 'error' ? 'cancel' : toast.type === 'success' ? 'check_circle' : toast.type === 'warning' ? 'error' : 'info_i'" />
+        <icon
+          [name]="
+            toast.type === 'error'
+              ? 'cancel'
+              : toast.type === 'success'
+                ? 'check_circle'
+                : toast.type === 'warning'
+                  ? 'error'
+                  : 'info_i'
+          "
+        />
         <div class="flex flex-col gap-1">
           <h6 class="font-bold">{{ toast.title }}</h6>
-          <p>{{ toast.message }}</p>
+          @for (message of toast.message.split("\n"); track $index) {
+            <p>{{ message }}</p>
+          }
         </div>
       </div>
     </div>
