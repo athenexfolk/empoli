@@ -25,8 +25,4 @@ export class EmployeeService {
   updateEmployee(id: string, dto: UpdateEmployeeDto) {
     return this.http.put<Employee>(`/api/employee/${id}`, dto);
   }
-
-  deleteEmployee(id: string) {
-    return this.http.delete(`/api/employee/${id}`);
-  }
 }

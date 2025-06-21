@@ -13,7 +13,14 @@ import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'employee-list',
-  imports: [CdkTableModule, FormsModule, SortIndicator, Button, RouterLink, DatePipe],
+  imports: [
+    CdkTableModule,
+    FormsModule,
+    SortIndicator,
+    Button,
+    RouterLink,
+    DatePipe,
+  ],
   templateUrl: './employee-list.html',
   styleUrl: './employee-list.css',
 })
@@ -47,8 +54,6 @@ export class EmployeeList {
   protected firstNameSearchPanel = new Toggler();
   protected lastNameSearchPanel = new Toggler();
 
-  protected readonly deletePanel = new Toggler();
-
   protected currentFocusedEmployee = signal<Employee | null>(null);
 
   protected readonly filteredEmployees = computed(() => {
@@ -78,9 +83,6 @@ export class EmployeeList {
         next: (employees) => {
           this.employeeStore.loadEmployees(employees);
         },
-        error: (err) => {
-          console.error('Failed to load employees', err);
-        },
       });
     }
   }
@@ -92,15 +94,5 @@ export class EmployeeList {
       this.sortField.set(field);
       this.sortDirection.set('asc');
     }
-  }
-
-  openDeletePanel(employee: Employee) {
-    this.currentFocusedEmployee.set(employee);
-    this.deletePanel.activate();
-  }
-
-  closeDeletePanel() {
-    this.deletePanel.deactivate();
-    this.currentFocusedEmployee.set(null);
   }
 }
