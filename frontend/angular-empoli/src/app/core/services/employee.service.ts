@@ -5,24 +5,28 @@ import type { UpdateEmployeeDto } from '../dtos/update-employee';
 import type { Employee } from '../models/employee';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class EmployeeService {
-  private readonly http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
-  getEmployees() {
-    return this.http.get<Employee[]>('/api/employee');
-  }
+    getEmployees() {
+        return this.http.get<Employee[]>('/api/employee');
+    }
 
-  getEmployeeById(id: string) {
-    return this.http.get<Employee>(`/api/employee/${id}`);
-  }
+    getEmployeeById(id: string) {
+        return this.http.get<Employee>(`/api/employee/${id}`);
+    }
 
-  createEmployee(dto: CreateEmployeeDto) {
-    return this.http.post<Employee>('/api/employee', dto);
-  }
+    getEmployeeByEmail(email: string) {
+        return this.http.get<Employee>(`/api/employee/email?email=${email}`);
+    }
 
-  updateEmployee(id: string, dto: UpdateEmployeeDto) {
-    return this.http.put<Employee>(`/api/employee/${id}`, dto);
-  }
+    createEmployee(dto: CreateEmployeeDto) {
+        return this.http.post<Employee>('/api/employee', dto);
+    }
+
+    updateEmployee(id: string, dto: UpdateEmployeeDto) {
+        return this.http.put<Employee>(`/api/employee/${id}`, dto);
+    }
 }

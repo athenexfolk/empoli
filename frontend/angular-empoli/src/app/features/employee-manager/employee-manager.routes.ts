@@ -7,32 +7,33 @@ import { EmployeeStore } from '../../core/stores/employee.store';
 import { Router } from '@angular/router';
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: EmployeeManagerPage,
-  },
-  {
-    path: 'add',
-    component: AddEmployee,
-  },
-  {
-    path: 'update/:employeeId',
-    component: UpdateEmployee,
-    resolve: {
-      employee: (route: ActivatedRouteSnapshot) => {
-        const employeeStore = inject(EmployeeStore);
-        const router = inject(Router);
-        const employeeId = route.paramMap.get('employeeId');
-        if (!employeeId) {
-          router.navigate(['/not-found']);
-        }
-        const employee = employeeStore.items().find((e) => e.id === employeeId);
-        if (!employee) {
-          router.navigate(['/not-found']);
-        }
-        console.log('Resolved employee:', employee);
-        return employee;
-      },
+    {
+        path: '',
+        component: EmployeeManagerPage,
     },
-  },
+    {
+        path: 'add',
+        component: AddEmployee,
+    },
+    {
+        path: 'update/:employeeId',
+        component: UpdateEmployee,
+        resolve: {
+            employee: (route: ActivatedRouteSnapshot) => {
+                const employeeStore = inject(EmployeeStore);
+                const router = inject(Router);
+                const employeeId = route.paramMap.get('employeeId');
+                if (!employeeId) {
+                    router.navigate(['/not-found']);
+                }
+                const employee = employeeStore
+                    .items()
+                    .find((e) => e.id === employeeId);
+                if (!employee) {
+                    router.navigate(['/not-found']);
+                }
+                return employee;
+            },
+        },
+    },
 ];

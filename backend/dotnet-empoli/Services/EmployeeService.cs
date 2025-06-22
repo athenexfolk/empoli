@@ -38,6 +38,14 @@ public class EmployeeService(
             .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
     }
 
+    public async Task<EmployeeDto?> GetEmployeeByEmailAsync(string email, CancellationToken cancellationToken)
+    {
+        return await _context.Employees
+            .AsNoTracking()
+            .ProjectTo<EmployeeDto>(_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync(e => e.Email == email, cancellationToken);
+    }
+
     public async Task<EmployeeDto> CreateEmployeeAsync(CreateEmployeeDto dto, CancellationToken cancellationToken)
     {
         var validationResult = await _createValidator.ValidateAsync(dto, cancellationToken);

@@ -26,6 +26,16 @@ public class EmployeeController(EmployeeService employeeService) : ControllerBas
         return Ok(employee);
     }
 
+    [HttpGet("email")]
+    public async Task<ActionResult<EmployeeDto>> GetEmployeeByEmail(string email, CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+            return BadRequest("Email is required");
+        var employee = await _employeeService.GetEmployeeByEmailAsync(email, cancellationToken);
+        if (employee == null) return NotFound();
+        return Ok(employee);
+    }
+
     [HttpPost]
     public async Task<ActionResult<EmployeeDto>> CreateEmployee(CreateEmployeeDto dto, CancellationToken cancellationToken)
     {
