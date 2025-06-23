@@ -1,0 +1,95 @@
+<page-wrapper pageTitle="Add User">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-6">
+        <div class="flex flex-col gap-6">
+            <h3 class="text-lg font-medium">User Information</h3>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                <div class="flex flex-col gap-1">
+                    <label for="email" class="brk-label">Email</label>
+                    <input
+                        id="email"
+                        type="email"
+                        formControlName="email"
+                        placeholder="e.g. user@example.com"
+                        class="brk-input w-full"
+                        [class.brk-input__error]="
+                            email.invalid && email.touched
+                        "
+                    />
+                    @if (email.hasError("required") && email.touched) {
+                        <span class="text-xs text-red-500"
+                            >Email is required</span
+                        >
+                    }
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="email" class="brk-label">Password</label>
+                    <input
+                        id="password"
+                        type="password"
+                        formControlName="password"
+                        placeholder="********"
+                        class="brk-input w-full"
+                        [class.brk-input__error]="
+                            password.invalid && password.touched
+                        "
+                    />
+                    @if (password.hasError("required") && password.touched) {
+                        <span class="text-xs text-red-500"
+                            >Password is required</span
+                        >
+                    }
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="role" class="brk-label">Role</label>
+                    <select
+                        id="role"
+                        formControlName="role"
+                        class="brk-input w-full"
+                        [class.brk-select__error]="role.invalid && role.touched"
+                    >
+                        <option value="" disabled selected>
+                            Select a role
+                        </option>
+                        @for (role of roleStore.items(); track $index) {
+                            <option [value]="role.name">
+                                {{
+                                    role.name.charAt(0).toUpperCase() +
+                                        role.name.slice(1)
+                                }}
+                            </option>
+                        }
+                    </select>
+                    @if (role.hasError("required") && role.touched) {
+                        <span class="text-xs text-red-500"
+                            >Role is required</span
+                        >
+                    }
+                </div>
+            </div>
+        </div>
+        @if (successMessage) {
+            <div
+                class="flex items-center gap-2 rounded border border-green-500 px-4 py-2 text-sm text-green-500"
+            >
+                <icon name="check_circle" />
+                {{ successMessage }}
+            </div>
+        }
+        @if (errorMessage) {
+            <div
+                class="flex items-center gap-2 rounded border border-red-500 px-4 py-2 text-sm text-red-500"
+            >
+                <icon name="cancel" />
+                {{ errorMessage }}
+            </div>
+        }
+        <button
+            brkBtn
+            type="submit"
+            [loading]="isSubmitting"
+            [disabled]="isSubmitting || form.invalid"
+        >
+            ADD
+        </button>
+    </form>
+</page-wrapper>

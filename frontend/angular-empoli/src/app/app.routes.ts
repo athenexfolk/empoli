@@ -19,6 +19,20 @@ export const routes: Routes = [
                 component: DashboardPage,
             },
             {
+                path: 'user-manager',
+                loadChildren: () =>
+                    import('./features/user-manager/user-manager.routes').then(
+                        (r) => r.routes,
+                    ),
+            },
+            {
+                path: 'role-manager',
+                loadChildren: () =>
+                    import('./features/role-manager/role-manager.routes').then(
+                        (r) => r.routes,
+                    ),
+            },
+            {
                 path: 'employee-manager',
                 loadChildren: () =>
                     import(

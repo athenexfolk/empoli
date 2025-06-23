@@ -1,54 +1,43 @@
-using Microsoft.AspNetCore.Identity;
+using Empoli.Data.Auth;
+using Empoli.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Empoli.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class RoleController(RoleManager<IdentityRole> roleManager) : ControllerBase
+public class RoleController(RoleService roleService) : ControllerBase
 {
-    private readonly RoleManager<IdentityRole> _roleManager = roleManager;
+    private readonly RoleService _roleService = roleService;
 
     [HttpGet]
-    public ActionResult<IEnumerable<object>> GetRoles()
+    public async Task<ActionResult<IEnumerable<RoleDto>>> GetRoles()
     {
-        var roles = _roleManager.Roles.Select(r => new
-        {
-            r.Id,
-            r.Name
-        }).ToList();
+        var roles = await _roleService.GetRolesAsync();
         return Ok(roles);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<object>> GetRoleById(string id)
+    public async Task<ActionResult<RoleDto>> GetRoleById(string id)
     {
-        var role = await _roleManager.FindByIdAsync(id);
+        var role = await _roleService.GetRoleByIdAsync(id);
         if (role == null) return NotFound();
-        return Ok(new
-        {
-            role.Id,
-            role.Name
-        });
+        return Ok(role);
     }
 
     [HttpPost]
-    public async Task<ActionResult<object>> CreateRole(string name)
+    public async Task<ActionResult<RoleDto>> CreateRole(string name)
     {
-        if (string.IsNullOrWhiteSpace(name)) return BadRequest("Role name is required");
-        var result = await _roleManager.CreateAsync(new IdentityRole(name));
-        if (!result.Succeeded) return BadRequest(result.Errors);
-        var role = await _roleManager.FindByNameAsync(name);
-        return CreatedAtAction(nameof(GetRoleById), new { id = role!.Id }, new { role.Id, role.Name });
+        var role = await _roleService.CreateRoleAsync(name);
+        if (role == null) return BadRequest("Role creation failed");
+        return CreatedAtAction(nameof(GetRoleById), new { id = role.Id }, role);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteRole(string id)
     {
-        var role = await _roleManager.FindByIdAsync(id);
-        if (role == null) return NotFound();
-        var result = await _roleManager.DeleteAsync(role);
-        if (!result.Succeeded) return BadRequest(result.Errors);
+        var success = await _roleService.DeleteRoleAsync(id);
+        if (!success) return NotFound("Role not found or could not be deleted");
         return NoContent();
     }
 }

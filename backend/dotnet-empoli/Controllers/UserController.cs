@@ -1,4 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+using Empoli.Data;
 using Empoli.Data.Auth;
+using Empoli.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,69 +9,108 @@ namespace Empoli.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UserController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager) : ControllerBase
+public class UserController(
+    UserManager<IdentityUser> userManager,
+    RoleManager<IdentityRole> roleManager,
+    UserService userService,
+    ApplicationDbContext context) : ControllerBase
 {
     private readonly UserManager<IdentityUser> _userManager = userManager;
     private readonly RoleManager<IdentityRole> _roleManager = roleManager;
+    private readonly UserService _userService = userService;
+    private readonly ApplicationDbContext _context = context;
 
     [HttpGet]
-    public ActionResult<IEnumerable<object>> GetUsers()
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
     {
-        var users = _userManager.Users.Select(u => new
-        {
-            u.Id,
-            u.UserName,
-            u.Email
-        }).ToList();
+        var users = await _userService.GetUsersAsync();
         return Ok(users);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<object>> GetUserById(string id)
+    public async Task<ActionResult<UserDto>> GetUserById(string id)
     {
-        var user = await _userManager.FindByIdAsync(id);
+        var user = await _userService.GetUserByIdAsync(id);
         if (user == null) return NotFound();
-        return Ok(new
-        {
-            user.Id,
-            user.Email
-        });
+        return Ok(user);
     }
 
     [HttpPost]
-    public async Task<ActionResult<object>> CreateUser(CreateUserDto dto)
+    public async Task<ActionResult<UserDto>> CreateUser(CreateUserDto dto, string? roleName)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var transaction = await _context.Database.BeginTransactionAsync();
 
-        var user = new IdentityUser
+        try
         {
-            UserName = dto.Email,
-            Email = dto.Email
-        };
+            var user = await _userService.CreateUserAsync(dto);
+            if (user == null)
+            {
+                await transaction.RollbackAsync();
+                return BadRequest("User creation failed");
+            }
 
-        var result = await _userManager.CreateAsync(user, dto.Password);
-        if (!result.Succeeded) return BadRequest(result.Errors);
+            if (roleName != null)
+            {
+                var createdUser = await _userManager.FindByIdAsync(user.Id);
+                if (createdUser == null)
+                {
+                    await transaction.RollbackAsync();
+                    return NotFound("User not found");
+                }
+                var role = await _roleManager.FindByNameAsync(roleName);
+                if (role == null) { await transaction.RollbackAsync(); return NotFound("Role not found"); }
+                var result = await _userManager.AddToRoleAsync(createdUser, roleName);
+                if (!result.Succeeded)
+                {
+                    await transaction.RollbackAsync();
+                    return BadRequest(result.Errors);
+                }
+            }
 
-        return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, new
+            await transaction.CommitAsync();
+
+            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
+        }
+        catch (ValidationException ex)
         {
-            user.Id,
-            user.Email
-        });
+            await transaction.RollbackAsync();
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
 
-    [HttpPost("{id}/roles")]
+    [HttpPost("{id}/change-password")]
+    public async Task<IActionResult> ChangePassword(string id, ChangePasswordDto dto)
+    {
+        var user = await _userService.GetUserByIdAsync(id);
+        if (user == null) return NotFound("User not found");
+        var success = await _userService.ChangePasswordAsync(dto);
+        if (!success) return BadRequest("Password change failed");
+        return NoContent();
+    }
+
+    [HttpPost("{id}/role")]
     public async Task<IActionResult> AddUserToRole(string id, string roleName)
     {
         var user = await _userManager.FindByIdAsync(id);
         if (user == null) return NotFound("User not found");
         var role = await _roleManager.FindByNameAsync(roleName);
         if (role == null) return NotFound("Role not found");
+        var userRoles = await _userManager.GetRolesAsync(user);
+        if (userRoles.Count > 0)
+        {
+            return BadRequest("User can have at most one role. Remove the existing role before adding a new one.");
+        }
         var result = await _userManager.AddToRoleAsync(user, roleName);
         if (!result.Succeeded) return BadRequest(result.Errors);
         return Ok();
     }
 
-    [HttpDelete("{id}/roles/{roleName}")]
+    [HttpDelete("{id}/role")]
     public async Task<IActionResult> RemoveUserFromRole(string id, string roleName)
     {
         var user = await _userManager.FindByIdAsync(id);

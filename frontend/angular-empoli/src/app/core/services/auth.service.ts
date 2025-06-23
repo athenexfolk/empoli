@@ -118,7 +118,7 @@ export class AuthService {
     }
 
     hasAnyRole(roles: string[]) {
-        return false;
+        return true;
         // if (!employee || !employee.role) return false;
         // return roles.includes(employee.role);
     }

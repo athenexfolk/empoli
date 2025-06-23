@@ -17,6 +17,24 @@
         <ul class="flex flex-col">
             <li *hasRole="['admin']">
                 <a
+                    routerLink="/user-manager"
+                    class="flex w-full items-center gap-2 rounded px-4 py-2 font-medium hover:bg-stone-800 hover:text-white"
+                >
+                    <i class="ms">person</i>
+                    User
+                </a>
+            </li>
+            <li *hasRole="['admin']">
+                <a
+                    routerLink="/role-manager"
+                    class="flex w-full items-center gap-2 rounded px-4 py-2 font-medium hover:bg-stone-800 hover:text-white"
+                >
+                    <i class="ms">admin_panel_settings</i>
+                    Role
+                </a>
+            </li>
+            <li *hasRole="['admin']">
+                <a
                     routerLink="/"
                     class="flex w-full items-center gap-2 rounded px-4 py-2 font-medium hover:bg-stone-800 hover:text-white"
                 >

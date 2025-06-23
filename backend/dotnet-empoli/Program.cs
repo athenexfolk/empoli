@@ -25,6 +25,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<LeaveTypeService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<RoleService>();
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidateModelAttribute>();
