@@ -1,27 +1,38 @@
 import { signal, WritableSignal } from '@angular/core';
 
 export class BaseStore<T> {
-  items: WritableSignal<T[]> = signal<T[]>([]);
+    items: WritableSignal<T[]> = signal<T[]>([]);
+    isLoaded = false;
 
-  setAll(newItems: T[]) {
-    this.items.set(newItems);
-  }
+    load(newItems: T[]) {
+        this.isLoaded = true;
+        this.setAll(newItems);
+    }
 
-  add(item: T) {
-    this.items.update((items) => [...items, item]);
-  }
+    unload() {
+        this.isLoaded = false;
+        this.clear();
+    }
 
-  update(predicate: (item: T) => boolean, updatedItem: T) {
-    this.items.update((items) =>
-      items.map((item) => (predicate(item) ? updatedItem : item)),
-    );
-  }
+    setAll(newItems: T[]) {
+        this.items.set(newItems);
+    }
 
-  remove(predicate: (item: T) => boolean) {
-    this.items.update((items) => items.filter((i) => !predicate(i)));
-  }
+    add(item: T) {
+        this.items.update((items) => [...items, item]);
+    }
 
-  clear() {
-    this.items.set([]);
-  }
+    update(predicate: (item: T) => boolean, updatedItem: T) {
+        this.items.update((items) =>
+            items.map((item) => (predicate(item) ? updatedItem : item)),
+        );
+    }
+
+    remove(predicate: (item: T) => boolean) {
+        this.items.update((items) => items.filter((i) => !predicate(i)));
+    }
+
+    clear() {
+        this.items.set([]);
+    }
 }

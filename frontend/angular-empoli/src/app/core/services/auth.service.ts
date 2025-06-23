@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { tap } from 'rxjs/operators';
 import { Employee } from '../models/employee';
 import { EmployeeService } from './employee.service';
+import { StoreManagerService } from './store-manager.service';
 
 @Injectable({
     providedIn: 'root',
@@ -11,13 +12,13 @@ import { EmployeeService } from './employee.service';
 export class AuthService {
     private readonly http = inject(HttpClient);
     private readonly employeeService = inject(EmployeeService);
+    private readonly storeManager = inject(StoreManagerService);
 
     private token = signal<string | null>(null);
     isAuthenticated = signal(false);
     bindEmployee = signal<Employee | null>(null);
 
     constructor() {
-        // Sync token and isAuthenticated with localStorage
         effect(() => {
             const token = this.token();
             if (token) {
@@ -29,12 +30,10 @@ export class AuthService {
                 this.isAuthenticated.set(false);
             }
         });
-        // On service init, restore token from localStorage
         const storedToken = localStorage.getItem('auth_token');
         if (storedToken) {
             try {
                 const decoded: any = jwtDecode(storedToken);
-
                 if (decoded.exp && Date.now() < decoded.exp * 1000) {
                     this.token.set(storedToken);
                     this.isAuthenticated.set(true);
@@ -58,7 +57,6 @@ export class AuthService {
                     next: ({ token }) => {
                         try {
                             const decoded: any = jwtDecode(token);
-                            // Check for exp (expiration) claim
                             if (
                                 decoded.exp &&
                                 Date.now() < decoded.exp * 1000
@@ -67,12 +65,10 @@ export class AuthService {
                                 this.isAuthenticated.set(true);
                                 this.getUserInfo();
                             } else {
-                                // Token expired
                                 this.token.set(null);
                                 this.isAuthenticated.set(false);
                             }
                         } catch (e) {
-                            // Invalid token
                             console.error('Invalid JWT', e);
                             this.token.set(null);
                             this.isAuthenticated.set(false);
@@ -91,14 +87,12 @@ export class AuthService {
         if (!storedToken) {
             return;
         }
-
         try {
             const decoded: any = jwtDecode(storedToken);
             const email =
                 decoded[
                     'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
                 ];
-
             if (email) {
                 this.employeeService.getEmployeeByEmail(email).subscribe({
                     next: (employee) => {
@@ -115,11 +109,10 @@ export class AuthService {
         this.token.set(null);
         this.isAuthenticated.set(false);
         this.bindEmployee.set(null);
+        this.storeManager.unloadAll();
     }
 
     hasAnyRole(roles: string[]) {
         return true;
-        // if (!employee || !employee.role) return false;
-        // return roles.includes(employee.role);
     }
 }

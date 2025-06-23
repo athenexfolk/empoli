@@ -44,7 +44,7 @@ export class RoleList {
         if (!this.roleStore.isLoaded) {
             this.roleService.getRoles().subscribe({
                 next: (roles) => {
-                    this.roleStore.loadRoles(roles);
+                    this.roleStore.load(roles);
                 },
             });
         }

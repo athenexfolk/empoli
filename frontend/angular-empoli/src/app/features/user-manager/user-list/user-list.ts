@@ -43,7 +43,7 @@ export class UserList {
         if (!this.userStore.isLoaded) {
             this.userService.getUsers().subscribe({
                 next: (users) => {
-                    this.userStore.loadUsers(users);
+                    this.userStore.load(users);
                 },
             });
         }
