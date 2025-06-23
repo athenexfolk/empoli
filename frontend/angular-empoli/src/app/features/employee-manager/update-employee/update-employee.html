@@ -1,167 +1,201 @@
 <page-wrapper pageTitle="Update Employee">
-  <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-6">
-    <div formGroupName="personal" class="flex flex-col gap-6">
-      <h3 class="text-lg font-medium">Personal Information</h3>
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div class="flex flex-col gap-1">
-          <label for="firstName" class="brk-label">First Name</label>
-          <input
-            id="firstName"
-            type="text"
-            formControlName="firstName"
-            placeholder="e.g. John"
-            autocomplete="given-name"
-            class="brk-input w-full"
-            [class.brk-input__error]="firstName.invalid && firstName.touched"
-          />
-          @if (firstName.hasError("required") && firstName.touched) {
-            <span class="text-xs text-red-500">First name is required</span>
-          }
+    <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-6">
+        <div formGroupName="personal" class="flex flex-col gap-6">
+            <h3 class="text-lg font-medium">Personal Information</h3>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                <div class="flex flex-col gap-1">
+                    <label for="firstName" class="brk-label">First Name</label>
+                    <input
+                        id="firstName"
+                        type="text"
+                        formControlName="firstName"
+                        placeholder="e.g. John"
+                        autocomplete="given-name"
+                        class="brk-input w-full"
+                        [class.brk-input__error]="
+                            firstName.invalid && firstName.touched
+                        "
+                    />
+                    @if (firstName.hasError("required") && firstName.touched) {
+                        <span class="text-xs text-red-500"
+                            >First name is required</span
+                        >
+                    }
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="lastName" class="brk-label">Last Name</label>
+                    <input
+                        id="lastName"
+                        type="text"
+                        formControlName="lastName"
+                        placeholder="e.g. Doe"
+                        autocomplete="family-name"
+                        class="brk-input w-full"
+                        [class.brk-input__error]="
+                            lastName.invalid && lastName.touched
+                        "
+                    />
+                    @if (lastName.hasError("required") && lastName.touched) {
+                        <span class="text-xs text-red-500"
+                            >Last name is required</span
+                        >
+                    }
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="dateOfBirth" class="brk-label"
+                        >Date of Birth</label
+                    >
+                    <input
+                        id="dateOfBirth"
+                        type="date"
+                        formControlName="dateOfBirth"
+                        autocomplete="bday"
+                        class="brk-input w-full"
+                        [class.brk-input__error]="
+                            dateOfBirth.invalid && dateOfBirth.touched
+                        "
+                    />
+                    @if (
+                        dateOfBirth.hasError("required") && dateOfBirth.touched
+                    ) {
+                        <span class="text-xs text-red-500"
+                            >Date of birth is required</span
+                        >
+                    }
+                </div>
+            </div>
         </div>
-        <div class="flex flex-col gap-1">
-          <label for="lastName" class="brk-label">Last Name</label>
-          <input
-            id="lastName"
-            type="text"
-            formControlName="lastName"
-            placeholder="e.g. Doe"
-            autocomplete="family-name"
-            class="brk-input w-full"
-            [class.brk-input__error]="lastName.invalid && lastName.touched"
-          />
-          @if (lastName.hasError("required") && lastName.touched) {
-            <span class="text-xs text-red-500">Last name is required</span>
-          }
-        </div>
-        <div class="flex flex-col gap-1">
-          <label for="dateOfBirth" class="brk-label">Date of Birth</label>
-          <input
-            id="dateOfBirth"
-            type="date"
-            formControlName="dateOfBirth"
-            autocomplete="bday"
-            class="brk-input w-full"
-            [class.brk-input__error]="
-              dateOfBirth.invalid && dateOfBirth.touched
-            "
-          />
-          @if (dateOfBirth.hasError("required") && dateOfBirth.touched) {
-            <span class="text-xs text-red-500">Date of birth is required</span>
-          }
-        </div>
-      </div>
-    </div>
 
-    <div formGroupName="contact" class="flex flex-col gap-6">
-      <h3 class="text-lg font-medium">Contact Information</h3>
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div class="flex flex-col gap-1">
-          <label for="email" class="brk-label">Email</label>
-          <input
-            id="email"
-            type="email"
-            formControlName="email"
-            placeholder="e.g. john.doe@example.com"
-            autocomplete="email"
-            class="brk-input w-full"
-            [class.brk-input__error]="email.invalid && email.touched"
-          />
-          @if (email.hasError("email") && email.touched) {
-            <span class="text-xs text-red-500">Please enter a valid email</span>
-          }
+        <div formGroupName="contact" class="flex flex-col gap-6">
+            <h3 class="text-lg font-medium">Contact Information</h3>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                <div class="flex flex-col gap-1">
+                    <label for="email" class="brk-label">Email</label>
+                    <input
+                        id="email"
+                        type="email"
+                        formControlName="email"
+                        placeholder="e.g. john.doe@example.com"
+                        autocomplete="email"
+                        class="brk-input w-full"
+                        [class.brk-input__error]="
+                            email.invalid && email.touched
+                        "
+                    />
+                    @if (email.hasError("email") && email.touched) {
+                        <span class="text-xs text-red-500"
+                            >Please enter a valid email</span
+                        >
+                    }
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="phoneNumber" class="brk-label"
+                        >Phone Number</label
+                    >
+                    <input
+                        id="phoneNumber"
+                        type="tel"
+                        formControlName="phoneNumber"
+                        placeholder="e.g. 123-456-7890"
+                        autocomplete="tel"
+                        class="brk-input w-full"
+                        [class.brk-input__error]="
+                            phoneNumber.invalid && phoneNumber.touched
+                        "
+                    />
+                </div>
+            </div>
         </div>
-        <div class="flex flex-col gap-1">
-          <label for="phoneNumber" class="brk-label">Phone Number</label>
-          <input
-            id="phoneNumber"
-            type="tel"
-            formControlName="phoneNumber"
-            placeholder="e.g. 123-456-7890"
-            autocomplete="tel"
-            class="brk-input w-full"
-            [class.brk-input__error]="
-              phoneNumber.invalid && phoneNumber.touched
-            "
-          />
-        </div>
-      </div>
-    </div>
 
-    <div formGroupName="job" class="flex flex-col gap-6">
-      <h3 class="text-lg font-medium">Job Information</h3>
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div class="flex flex-col gap-1">
-          <label for="hireDate" class="brk-label">Hire Date</label>
-          <input
-            id="hireDate"
-            type="date"
-            formControlName="hireDate"
-            autocomplete="off"
-            class="brk-input w-full"
-            [class.brk-input__error]="hireDate.invalid && hireDate.touched"
-          />
-          @if (hireDate.hasError("required") && hireDate.touched) {
-            <span class="text-xs text-red-500">Hire date is required</span>
-          }
+        <div formGroupName="job" class="flex flex-col gap-6">
+            <h3 class="text-lg font-medium">Job Information</h3>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                <div class="flex flex-col gap-1">
+                    <label for="hireDate" class="brk-label">Hire Date</label>
+                    <input
+                        id="hireDate"
+                        type="date"
+                        formControlName="hireDate"
+                        autocomplete="off"
+                        class="brk-input w-full"
+                        [class.brk-input__error]="
+                            hireDate.invalid && hireDate.touched
+                        "
+                    />
+                    @if (hireDate.hasError("required") && hireDate.touched) {
+                        <span class="text-xs text-red-500"
+                            >Hire date is required</span
+                        >
+                    }
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="jobTitle" class="brk-label">Job Title</label>
+                    <input
+                        id="jobTitle"
+                        type="text"
+                        formControlName="jobTitle"
+                        placeholder="e.g. Software Engineer"
+                        autocomplete="organization-title"
+                        class="brk-input w-full"
+                        [class.brk-input__error]="
+                            jobTitle.invalid && jobTitle.touched
+                        "
+                    />
+                    @if (jobTitle.hasError("required") && jobTitle.touched) {
+                        <span class="text-xs text-red-500"
+                            >Job title is required</span
+                        >
+                    }
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="department" class="brk-label">Department</label>
+                    <input
+                        id="department"
+                        type="text"
+                        formControlName="department"
+                        placeholder="e.g. Technology"
+                        autocomplete="organization"
+                        class="brk-input w-full"
+                        [class.brk-input__error]="
+                            department.invalid && department.touched
+                        "
+                    />
+                    @if (
+                        department.hasError("required") && department.touched
+                    ) {
+                        <span class="text-xs text-red-500"
+                            >Department is required</span
+                        >
+                    }
+                </div>
+            </div>
         </div>
-        <div class="flex flex-col gap-1">
-          <label for="jobTitle" class="brk-label">Job Title</label>
-          <input
-            id="jobTitle"
-            type="text"
-            formControlName="jobTitle"
-            placeholder="e.g. Software Engineer"
-            autocomplete="organization-title"
-            class="brk-input w-full"
-            [class.brk-input__error]="jobTitle.invalid && jobTitle.touched"
-          />
-          @if (jobTitle.hasError("required") && jobTitle.touched) {
-            <span class="text-xs text-red-500">Job title is required</span>
-          }
-        </div>
-        <div class="flex flex-col gap-1">
-          <label for="department" class="brk-label">Department</label>
-          <input
-            id="department"
-            type="text"
-            formControlName="department"
-            placeholder="e.g. Technology"
-            autocomplete="organization"
-            class="brk-input w-full"
-            [class.brk-input__error]="department.invalid && department.touched"
-          />
-          @if (department.hasError("required") && department.touched) {
-            <span class="text-xs text-red-500">Department is required</span>
-          }
-        </div>
-      </div>
-    </div>
 
-    @if (successMessage) {
-      <div
-        class="flex items-center gap-2 rounded border border-green-500 px-4 py-2 text-sm text-green-500"
-      >
-        <icon name="check_circle" />
-        {{ successMessage }}
-      </div>
-    }
+        @if (successMessage) {
+            <div
+                class="flex items-center gap-2 rounded border border-green-500 px-4 py-2 text-sm text-green-500"
+            >
+                <icon name="check_circle" />
+                {{ successMessage }}
+            </div>
+        }
 
-    @if (errorMessage) {
-      <div
-        class="flex items-center gap-2 rounded border border-red-500 px-4 py-2 text-sm text-red-500"
-      >
-        <icon name="cancel" />
-        {{ errorMessage }}
-      </div>
-    }
+        @if (errorMessage) {
+            <div
+                class="flex items-center gap-2 rounded border border-red-500 px-4 py-2 text-sm text-red-500"
+            >
+                <icon name="cancel" />
+                {{ errorMessage }}
+            </div>
+        }
 
-    <button
-      brkBtn
-      type="submit"
-      [loading]="isSubmitting"
-      [disabled]="isSubmitting || form.invalid"
-    >
-      UPDATE
-    </button>
-  </form>
+        <button
+            brkBtn
+            type="submit"
+            [loading]="isSubmitting"
+            [disabled]="isSubmitting || form.invalid"
+        >
+            UPDATE
+        </button>
+    </form>
 </page-wrapper>

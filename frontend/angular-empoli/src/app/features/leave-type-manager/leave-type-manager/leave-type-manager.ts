@@ -6,9 +6,9 @@ import { Button } from '../../../shared/components/button/button';
 import { Icon } from '../../../shared/components/icon/icon';
 
 @Component({
-  selector: 'leave-type-manager',
-  imports: [LeaveTypeList, RouterLink, PageWrapper, Button, Icon],
-  templateUrl: './leave-type-manager.html',
-  styleUrl: './leave-type-manager.css',
+    selector: 'leave-type-manager',
+    imports: [LeaveTypeList, RouterLink, PageWrapper, Button, Icon],
+    templateUrl: './leave-type-manager.html',
+    styleUrl: './leave-type-manager.css',
 })
 export class LeaveTypeManager {}

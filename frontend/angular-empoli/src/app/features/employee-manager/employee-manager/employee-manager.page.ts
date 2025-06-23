@@ -6,9 +6,9 @@ import { Button } from '../../../shared/components/button/button';
 import { Icon } from '../../../shared/components/icon/icon';
 
 @Component({
-  selector: 'employee-manager',
-  imports: [EmployeeList, RouterLink, PageWrapper, Button, Icon],
-  templateUrl: './employee-manager.page.html',
-  styleUrl: './employee-manager.page.css',
+    selector: 'employee-manager',
+    imports: [EmployeeList, RouterLink, PageWrapper, Button, Icon],
+    templateUrl: './employee-manager.page.html',
+    styleUrl: './employee-manager.page.css',
 })
 export class EmployeeManagerPage {}

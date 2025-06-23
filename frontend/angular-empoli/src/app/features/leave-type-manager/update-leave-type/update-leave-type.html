@@ -1,88 +1,100 @@
 <page-wrapper pageTitle="Update Leave Type">
-  <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-6">
-    <div class="flex flex-col gap-6">
-      <h3 class="text-lg font-medium">Leave Type Information</h3>
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div class="flex flex-col gap-1">
-          <label for="name" class="brk-label">Name</label>
-          <input
-            id="name"
-            type="text"
-            formControlName="name"
-            placeholder="e.g. Sick Leave"
-            class="brk-input w-full"
-            [class.brk-input__error]="name.invalid && name.touched"
-          />
-          @if (name.hasError('required') && name.touched) {
-            <span class="text-xs text-red-500">Name is required</span>
-          }
+    <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-6">
+        <div class="flex flex-col gap-6">
+            <h3 class="text-lg font-medium">Leave Type Information</h3>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                <div class="flex flex-col gap-1">
+                    <label for="name" class="brk-label">Name</label>
+                    <input
+                        id="name"
+                        type="text"
+                        formControlName="name"
+                        placeholder="e.g. Sick Leave"
+                        class="brk-input w-full"
+                        [class.brk-input__error]="name.invalid && name.touched"
+                    />
+                    @if (name.hasError("required") && name.touched) {
+                        <span class="text-xs text-red-500"
+                            >Name is required</span
+                        >
+                    }
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="maxDays" class="brk-label">Max Days</label>
+                    <input
+                        id="maxDays"
+                        type="number"
+                        formControlName="maxDays"
+                        placeholder="e.g. 10"
+                        class="brk-input w-full"
+                        [class.brk-input__error]="
+                            maxDays.invalid && maxDays.touched
+                        "
+                    />
+                    @if (maxDays.hasError("required") && maxDays.touched) {
+                        <span class="text-xs text-red-500"
+                            >Max days is required</span
+                        >
+                    }
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="requireApproval" class="brk-label"
+                        >Require Approval</label
+                    >
+                    <select
+                        id="requireApproval"
+                        formControlName="requireApproval"
+                        class="brk-input w-full"
+                    >
+                        <option [ngValue]="true">Yes</option>
+                        <option [ngValue]="false">No</option>
+                    </select>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="paidLeave" class="brk-label">Paid Leave</label>
+                    <select
+                        id="paidLeave"
+                        formControlName="paidLeave"
+                        class="brk-input w-full"
+                    >
+                        <option [ngValue]="true">Yes</option>
+                        <option [ngValue]="false">No</option>
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="flex flex-col gap-1">
-          <label for="maxDays" class="brk-label">Max Days</label>
-          <input
-            id="maxDays"
-            type="number"
-            formControlName="maxDays"
-            placeholder="e.g. 10"
-            class="brk-input w-full"
-            [class.brk-input__error]="maxDays.invalid && maxDays.touched"
-          />
-          @if (maxDays.hasError('required') && maxDays.touched) {
-            <span class="text-xs text-red-500">Max days is required</span>
-          }
+            <label for="description" class="brk-label">Description</label>
+            <textarea
+                id="description"
+                formControlName="description"
+                placeholder="Optional description"
+                class="brk-input w-full"
+            ></textarea>
         </div>
-        <div class="flex flex-col gap-1">
-          <label for="requireApproval" class="brk-label">Require Approval</label>
-          <select
-            id="requireApproval"
-            formControlName="requireApproval"
-            class="brk-input w-full"
-          >
-            <option [ngValue]="true">Yes</option>
-            <option [ngValue]="false">No</option>
-          </select>
-        </div>
-        <div class="flex flex-col gap-1">
-          <label for="paidLeave" class="brk-label">Paid Leave</label>
-          <select
-            id="paidLeave"
-            formControlName="paidLeave"
-            class="brk-input w-full"
-          >
-            <option [ngValue]="true">Yes</option>
-            <option [ngValue]="false">No</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="flex flex-col gap-1">
-      <label for="description" class="brk-label">Description</label>
-      <textarea
-        id="description"
-        formControlName="description"
-        placeholder="Optional description"
-        class="brk-input w-full"
-      ></textarea>
-    </div>
-    @if (successMessage) {
-      <div class="flex items-center gap-2 rounded border border-green-500 px-4 py-2 text-sm text-green-500">
-        <icon name="check_circle" />
-        {{ successMessage }}
-      </div>
-    }
-    @if (errorMessage) {
-      <div class="flex items-center gap-2 rounded border border-red-500 px-4 py-2 text-sm text-red-500">
-        <icon name="cancel" />
-        {{ errorMessage }}
-      </div>
-    }
-    <button
-      brkBtn
-      type="submit"
-      [loading]="isSubmitting"
-      [disabled]="isSubmitting || form.invalid"
-    >
-      UPDATE
-    </button>
-  </form>
+        @if (successMessage) {
+            <div
+                class="flex items-center gap-2 rounded border border-green-500 px-4 py-2 text-sm text-green-500"
+            >
+                <icon name="check_circle" />
+                {{ successMessage }}
+            </div>
+        }
+        @if (errorMessage) {
+            <div
+                class="flex items-center gap-2 rounded border border-red-500 px-4 py-2 text-sm text-red-500"
+            >
+                <icon name="cancel" />
+                {{ errorMessage }}
+            </div>
+        }
+        <button
+            brkBtn
+            type="submit"
+            [loading]="isSubmitting"
+            [disabled]="isSubmitting || form.invalid"
+        >
+            UPDATE
+        </button>
+    </form>
 </page-wrapper>

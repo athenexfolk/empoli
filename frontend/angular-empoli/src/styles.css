@@ -2,83 +2,83 @@
 @import "tailwindcss";
 
 @layer base {
-  button:not(:disabled),
-  [role="button"]:not(:disabled) {
-    cursor: pointer;
-    user-select: none;
-  }
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
+        user-select: none;
+    }
 }
 
 @utility brk-btn__base {
-  @apply rounded px-4 py-2 text-sm font-semibold uppercase transition-all focus:outline-none not-disabled:active:scale-95 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply rounded px-4 py-2 text-sm font-semibold uppercase transition-all focus:outline-none not-disabled:active:scale-95 disabled:cursor-not-allowed disabled:opacity-50;
 }
 
 @utility brk-btn__primary {
-  @apply brk-btn__base bg-stone-800 text-white not-disabled:hover:bg-stone-700;
+    @apply brk-btn__base bg-stone-800 text-white not-disabled:hover:bg-stone-700;
 }
 
 @utility brk-btn__ghost {
-  @apply brk-btn__base bg-transparent text-stone-900 not-disabled:hover:bg-stone-50;
+    @apply brk-btn__base bg-transparent text-stone-900 not-disabled:hover:bg-stone-50;
 }
 
 @utility brk-input {
-  @apply rounded border border-stone-300 p-2 outline-0 placeholder:text-stone-400;
+    @apply rounded border border-stone-300 p-2 outline-0 placeholder:text-stone-400;
 }
 
 @utility brk-input__error {
-  @apply border-red-300 text-red-500 ring-2 ring-red-200 placeholder:text-red-400;
+    @apply border-red-300 text-red-500 ring-2 ring-red-200 placeholder:text-red-400;
 }
 
 @utility brk-label {
-  @apply text-sm font-medium text-stone-700;
+    @apply text-sm font-medium text-stone-700;
 }
 
 @font-face {
-  font-family: "Figtree";
-  src: url("/fonts/Figtree.ttf") format("truetype");
+    font-family: "Figtree";
+    src: url("/fonts/Figtree.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "Material Symbols Rounded";
-  src: url("/fonts/MaterialSymbolsRounded.woff2") format("woff2");
+    font-family: "Material Symbols Rounded";
+    src: url("/fonts/MaterialSymbolsRounded.woff2") format("woff2");
 }
 
 th {
-  text-align: start;
+    text-align: start;
 }
 
 .ms {
-  font-family: "Material Symbols Rounded";
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-  font-variation-settings:
-    "FILL" 0,
-    "wght" 400,
-    "GRAD" 0,
-    "opsz" 48;
+    font-family: "Material Symbols Rounded";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    font-variation-settings:
+        "FILL" 0,
+        "wght" 400,
+        "GRAD" 0,
+        "opsz" 48;
 }
 
 .ms.small {
-  font-size: 16px;
+    font-size: 16px;
 }
 
 body {
-  font-family: "Figtree", sans-serif;
+    font-family: "Figtree", sans-serif;
 }
 
 .scrollbar-thin {
-  scrollbar-width: thin;
+    scrollbar-width: thin;
 }
 
 .cdk-column-index,
 .cdk-column-action {
-  min-width: auto;
+    min-width: auto;
 }

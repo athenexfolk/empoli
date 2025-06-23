@@ -1,23 +1,23 @@
 export class Toggler {
-  private _active: boolean;
+    private _active: boolean;
 
-  get active() {
-    return this._active;
-  }
+    get active() {
+        return this._active;
+    }
 
-  constructor(active = false) {
-    this._active = active;
-  }
+    constructor(active = false) {
+        this._active = active;
+    }
 
-  toggle() {
-    this._active = !this._active;
-  }
+    toggle() {
+        this._active = !this._active;
+    }
 
-  activate() {
-    this._active = true;
-  }
+    activate() {
+        this._active = true;
+    }
 
-  deactivate() {
-    this._active = false;
-  }
+    deactivate() {
+        this._active = false;
+    }
 }

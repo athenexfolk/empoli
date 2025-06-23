@@ -1,7 +1,7 @@
 import {
-  ApplicationConfig,
-  provideBrowserGlobalErrorListeners,
-  provideZonelessChangeDetection,
+    ApplicationConfig,
+    provideBrowserGlobalErrorListeners,
+    provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
@@ -10,11 +10,11 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideZonelessChangeDetection(),
-    provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(withFetch()),
-    provideAnimationsAsync(),
-  ],
+    providers: [
+        provideBrowserGlobalErrorListeners(),
+        provideZonelessChangeDetection(),
+        provideRouter(routes, withComponentInputBinding()),
+        provideHttpClient(withFetch()),
+        provideAnimationsAsync(),
+    ],
 };
